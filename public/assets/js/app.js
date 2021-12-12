@@ -7,7 +7,7 @@
 
 /* constants and common elements - for caching */
 var XADMINO_VARS = {
-    BODY: $("body"),
+    BODY: $("body"), 
     WRAPPER: $("#wrapper"),
     LEFT_ITEMS: $(".left ul")
 };
@@ -26,8 +26,9 @@ var XADMINO_VARS = {
     Sidemenu.prototype.openLeftBar = function() {
         XADMINO_VARS.WRAPPER.toggleClass("enlarged");
         XADMINO_VARS.WRAPPER.addClass("forced");
-
+        
         if (XADMINO_VARS.WRAPPER.hasClass("enlarged") && XADMINO_VARS.BODY.hasClass("fixed-left")) {
+            console.log(2);
             XADMINO_VARS.BODY.removeClass("fixed-left").addClass("fixed-left-void");
         } else if (!XADMINO_VARS.WRAPPER.hasClass("enlarged") && XADMINO_VARS.BODY.hasClass("fixed-left-void")) {
             XADMINO_VARS.BODY.removeClass("fixed-left-void").addClass("fixed-left");

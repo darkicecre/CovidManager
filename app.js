@@ -21,23 +21,29 @@ app.use(express.urlencoded(
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-//connect to database
-pool.connect()
-.then(()=>{console.log("db connected")});   
+//database
+const { QueryTypes } = require('sequelize');
+const sq = require('./models/index');
+sq.sequelize.authenticate()
+    .then(()=> console.log('Database connected'))
+    .catch(err =>console.log(err));
 
-//Models
+
+
+
 
 //set routes for server
 app.use('/patient',patient);
+app.use('/patient/',patient);
 
 app.use('/',(req,res)=>{
-    res.render('manager/patient',{
+    res.render('manager/managerDashboard',{
         nav: 'nav',
         sidebar: 'sidebar',
         tag: "Patient"
     })
 })
-
+app.use('/patient/addPatient',patient);
 //do not change
 const port = process.env.PORT || 3000;
 app.listen(port, ()=> console.log("Server listening on port "+ port));
