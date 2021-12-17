@@ -1,0 +1,50 @@
+<div class="container center-block" style="width:500px">
+
+            <div class="panel panel-primary">
+                <div class="panel-body">
+                    <form  action="/patient/addPatient" method="post">
+                        <div class="form-group">
+                                <label>Họ tên</label>
+                                <input type="text" class="form-control" name="name" required placeholder="Type something"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label>CMND</label>
+                            <div>
+                            <input data-parsley-type="number" type="text" name="CMND" class="form-control" required placeholder="Enter only numbers"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Ngày sinh</label>
+                            <div>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="birthday" placeholder="mm/dd/yyyy" id="datepicker-autoclose">
+                                    <span class="input-group-addon bg-custom b-0"><i class="mdi mdi-calendar text-white"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                                <label>Địa chỉ</label>
+                                <input type="text" class="form-control" name="address" required placeholder="Type something"/>
+                        </div>
+                        <div class="form-group">
+                                <label>Trạng thái:</label>
+                                <div>
+                                    <input type="text" class="form-control" required 
+                                            data-parsley-maxlength="6" name="status" placeholder="Max 6 chars."/>
+                                </div>
+                            </div>
+                        <div class="form-group">
+                            <div>
+                                <button type="submit" class="btn btn-primary waves-effect waves-light">
+                                    Submit
+                                </button>
+                                <button type="reset" class="btn btn-default waves-effect m-l-5">
+                                    Reset
+                                </button>
+                            </div>
+                        </div>
+                </form>
+            </div>
+        </div>
+</div>

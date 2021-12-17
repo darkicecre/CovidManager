@@ -1,11 +1,46 @@
-
-module.exports = class Patient{
-    constructor(obj) {
-        this.id = obj.id;
-        this.name = obj.name, 
-        this.image = obj.image,
-        this.note = obj.note,
-        this.price = obj.price,
-        this.quantity_unit = obj.quantity_unit
+const Sequelize = require('sequelize');
+module.exports = function(sequelize, DataTypes) {
+  return sequelize.define('Product', {
+    id: {
+      autoIncrement: true,
+      autoIncrementIdentity: true,
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true
+    },
+    name: {
+      type: DataTypes.STRING(100),
+      allowNull: true
+    },
+    image: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
+    note: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
+    price: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    quantity_unit: {
+      type: DataTypes.STRING(10),
+      allowNull: true
     }
-}
+  }, {
+    sequelize,
+    tableName: 'Product',
+    schema: 'public',
+    timestamps: false,
+    indexes: [
+      {
+        name: "Product_pkey",
+        unique: true,
+        fields: [
+          { name: "id" },
+        ]
+      },
+    ]
+  });
+};

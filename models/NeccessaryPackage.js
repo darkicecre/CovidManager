@@ -1,11 +1,46 @@
-
-module.exports = class Patient{
-    constructor(obj) {
-        this.id = obj.id;
-        this.name = obj.name, 
-        this.list_product = obj.list_product,
-        this.limit_count_package_day = obj.limit_count_package_day,
-        this.limit_count_package_week = obj.limit_count_package_week,
-        this.limit_count_package_month = obj.limit_count_package_month
+const Sequelize = require('sequelize');
+module.exports = function(sequelize, DataTypes) {
+  return sequelize.define('NeccessaryPackage', {
+    id: {
+      autoIncrement: true,
+      autoIncrementIdentity: true,
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true
+    },
+    name: {
+      type: DataTypes.STRING(100),
+      allowNull: true
+    },
+    list_product: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
+    limit_count_package_day: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    limit_count_package_week: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    limit_count_package_month: {
+      type: DataTypes.INTEGER,
+      allowNull: true
     }
-}
+  }, {
+    sequelize,
+    tableName: 'NeccessaryPackage',
+    schema: 'public',
+    timestamps: false,
+    indexes: [
+      {
+        name: "NeccessaryPackage_pkey",
+        unique: true,
+        fields: [
+          { name: "id" },
+        ]
+      },
+    ]
+  });
+};

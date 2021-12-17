@@ -1,12 +1,58 @@
-
-module.exports = class Patient{
-    constructor(obj) {
-        this.id = obj.id;
-        this.id_package = obj.id_package,
-        this.id_payer = obj.id_payer,
-        this.count = obj.count,
-        this.time_start = obj.time_start,
-        this.price = obj.price,
-        this.list_product = obj.list_product
+const Sequelize = require('sequelize');
+module.exports = function(sequelize, DataTypes) {
+  return sequelize.define('PaymentHistory', {
+    id: {
+      autoIncrement: true,
+      autoIncrementIdentity: true,
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true
+    },
+    id_package: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'NeccessaryPackage',
+        key: 'id'
+      }
+    },
+    id_payer: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'UserAccount',
+        key: 'id'
+      }
+    },
+    count: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    time_start: {
+      type: DataTypes.DATE,
+      allowNull: true
+    },
+    price: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    list_product: {
+      type: DataTypes.TEXT,
+      allowNull: true
     }
-}
+  }, {
+    sequelize,
+    tableName: 'PaymentHistory',
+    schema: 'public',
+    timestamps: false,
+    indexes: [
+      {
+        name: "PaymentHistory_pkey",
+        unique: true,
+        fields: [
+          { name: "id" },
+        ]
+      },
+    ]
+  });
+};
