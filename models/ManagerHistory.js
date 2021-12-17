@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('ManagerHistory', {
@@ -40,3 +41,14 @@ module.exports = function(sequelize, DataTypes) {
     ]
   });
 };
+=======
+
+module.exports = class Patient{
+    constructor(obj) {
+        this.id = obj.id;
+        this.id_manager = obj.id_manager,
+        this.type = obj.type,
+        this.describe = obj.describe
+    }
+}
+>>>>>>> master
