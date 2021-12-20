@@ -1,16 +1,18 @@
 const { models } = require("..");
 const { QueryTypes } = require("sequelize");
-const sq = require("../../models/index");
-//console.log(models.Patient.findAll());
-async function test() {
-  const t = await models.Patient.findAll({ raw: true });
-  console.log(t);
-  return t;
-}
+
+
 
 // get all patients
 const listPatient = () => {
-  return models.Patient.findAll({ raw: true });
+  return models.Patient.findAll({ 
+    raw: true,
+    include: [{
+      model: models.TreatmentPlace,
+      as: 'treatment_place',
+      attributes: ['name'],
+    }]
+   });
 };
 
 //add patient raw query
@@ -44,10 +46,17 @@ const addPatient = async (patient) => {
       identity_card: patient.CMND,
       birthdate:  '2016-06-22 19:10:25-07',
       status: patient.status,
-      treatment_place_id: 1,
+      treatment_place_id: patient.treatment_place,
     });
   } catch (err) {
     console.log(err);
   }
 };
-module.exports = { listPatient, addPatient, addPatient };
+
+//get detail patient
+const patientDetail =  (_id) => {
+  return models.Patient.findByPk( _id,{raw: true});
+};
+
+
+module.exports = { listPatient, addPatient, addPatient, patientDetail };

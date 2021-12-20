@@ -5,8 +5,9 @@ const router = express.Router();
 const controller = require("../controllers/patient/patientController");
 router.get("/", controller.list);
 router.get("/addPatient", controller.addPatient);
-//router.get("/patientDetail", controller.PatientDetail);
-router.get("/:id", controller.PatientDetail)
+
+router.get("/:id", controller.PatientDetail);
 router.post('/addPatient', controller.add);
 
+router.get("/changeInfo",controller.changeInfo);
 module.exports = router;
