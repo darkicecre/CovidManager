@@ -30,12 +30,12 @@
             <tbody>
               {{#each patient}}
                 <tr>
-                  <td> <a href="">{{name}}</a></td>
+                  <td> <a href="/patient/{{id}}">{{name}}</a></td>
                   <td>{{identity_card}}</td>
                   <td>{{birthdate}}</td>
                   <td>{{address}}</td>
+                  <td>{{"treatment_place.name"}}</td>
                   <td>{{status}}</td>
-                  <td>{{treatment_place_id}}</td>
                 </tr>
               {{/each}}
             </tbody>

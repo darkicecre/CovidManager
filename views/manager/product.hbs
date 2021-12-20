@@ -32,16 +32,20 @@
               {{#each product}}
                 <tr>
                   <td style="position: relative;"> <a href={{id}} style="position: absolute;left: 21px;top: 65px;">{{id}}</a></td>
-                  <td>
+                  <input>
                       <button class="thumbnail imageItem">
                         <img class="image" src={{image}} alt="Image not found" onerror="this.onerror=null;this.src='https://bitsofco.de/content/images/2018/12/Screenshot-2018-12-16-at-21.06.29.png';" style="margin: auto;">
                       </button>
+                      <input id="createId({{id}})"   type="text"></input>
                   </td>
                   <td>{{name}}</td>
                   <td>{{price}} đ</td>
                   <td>{{quantity_unit}}</td>
                   <td>{{note}}</td>
-                  <td style="display:flex; flex-direction: column;"><button style="margin-top: 20px; margin-bottom:20px;">✏  </button><button style="margin-top: 20px; margin-bottom:20px;">🗑</button></td>
+                  <td style="display:flex; flex-direction: column;">
+                    <i onclick="edit({{id}})"  class=" fa fa-edit" style="color: #c2b30c; font-size: 24px; text-align: center; margin-top: 30px"></i> 
+                    <i class="mdi mdi-delete-forever" style="color: #ff2b2b; font-size: 33px; text-align: center;  margin-top: 30px"></i>
+                  </td>
                 </tr>
               {{/each}}
             </tbody>
@@ -66,5 +70,15 @@
     }
 </style>
 <script>
-  
+  const {models} = require("")
+  function createId(id){
+    
+    return id;
+  }
+  function edit(id){
+    alert(id);
+  }
+  function delete(id){
+
+  }
 </script>

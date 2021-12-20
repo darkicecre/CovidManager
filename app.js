@@ -8,6 +8,8 @@ const app = express();
 //routes
 const patient = require("./routes/patients");
 const product = require("./routes/products");
+const userAccount = require("./routes/user");
+
 
 //hbs
 app.set("view engine", "hbs");
@@ -32,6 +34,7 @@ sq.sequelize
 //set routes for server
 app.use("/patient", patient);
 app.use("/product",product);
+app.use("/addUserAccount",userAccount);
 
 app.use("/", (req, res) => {
   res.render("manager/managerDashboard", {

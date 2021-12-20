@@ -10,7 +10,8 @@ module.exports = function(sequelize, DataTypes) {
     },
     user_name: {
       type: DataTypes.STRING(100),
-      allowNull: true
+      allowNull: true,
+      unique: "username"
     },
     password: {
       type: DataTypes.STRING(30),
@@ -39,6 +40,13 @@ module.exports = function(sequelize, DataTypes) {
         unique: true,
         fields: [
           { name: "id" },
+        ]
+      },
+      {
+        name: "username",
+        unique: true,
+        fields: [
+          { name: "user_name" },
         ]
       },
     ]

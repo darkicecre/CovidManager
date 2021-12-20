@@ -26,7 +26,8 @@ CREATE TABLE IF NOT EXISTS public."Patient"
 	CONSTRAINT fk_patient_treatmentplace FOREIGN KEY (treatment_place_id)
         REFERENCES public."TreatmentPlace" (id) MATCH SIMPLE
         ON UPDATE NO ACTION
-        ON DELETE CASCADE
+        ON DELETE CASCADE,
+	CONSTRAINT identity UNIQUE (identity_card)
 );
 
 
@@ -75,7 +76,8 @@ CREATE TABLE IF NOT EXISTS public."UserAccount"
 	role character varying(15),
 	active boolean,
 	is_alert boolean,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+	CONSTRAINT username UNIQUE (user_name)
 );
 
 
