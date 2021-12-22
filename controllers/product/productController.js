@@ -18,13 +18,21 @@ const addProduct = (req, res) => {
      tag: "Add Product",
    });
 };
-const PatientDetail = (req, res) => {
-//   res.render("manager/patientDetail", {
-//     nav: "nav",
-//     sidebar: "sidebar",
-//     tag: "Patient Detail",
-//   });
-};
+const toUpdateProduct = async (req,res)=>{
+  const pt = req.body;
+  const obj = await service.findById(pt);
+  res.render("manager/updateProduct",{
+    nav:"nav",
+    sidebar: "sidebar",
+    tag: "Update Product",
+    id:obj[0].id,
+    name:obj[0].name,
+    price:obj[0].price,
+    formatPrice:Intl.NumberFormat('vi-VN').format(obj[0].price) + ' đ',
+    image:obj[0].image,
+    note:obj[0].note,
+  })
+}
 
 const add = (req, res) => {
    const pt = req.body;
@@ -32,6 +40,11 @@ const add = (req, res) => {
    service.addProduct(pt)
      .then(res.redirect("/product"))
 };
+const deletePro=(req,res)=>{
+  const pt = req.body;
+  console.log(pt);
+  service.deleteProduct(pt).then(res.redirect("/product"));
+}
 
 const productDetail = (req,res)=>{
   res.render("manager/productDetail",{
@@ -40,4 +53,10 @@ const productDetail = (req,res)=>{
     tag:"Product Detail"
   })
 }
-module.exports = { list, addProduct,add,productDetail };
+
+const updateProduct=(req,res)=>{
+  const pt = req.body;
+  console.log(pt);
+  service.updateProduct(pt).then(res.redirect("/product"));
+}
+module.exports = { list, addProduct,add,productDetail, deletePro,toUpdateProduct, updateProduct };

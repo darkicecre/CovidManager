@@ -1,0 +1,52 @@
+<div class="container center-block" style="width:500px">
+            <div class="panel panel-primary">
+                <div class="panel-body">
+                    <form  action="/product/updateProduct" method="post">
+                        <input type="text" name="id"  style="display: none;" value={{id}}></input
+                        >
+                        <div class="form-group">
+                                <label>Tên sản phẩm</label>
+                                <input type="text" class="form-control" name="name" required placeholder="Type something" value="{{name}}"></input>
+                        </div>
+
+                        <div class="form-group">
+                                <label>Giá sản phẩm</label>
+                                <div style="display: flex;">
+                                    <input oninput="this.nextElementSibling.value = Intl.NumberFormat('vi-VN').format(this.value) + ' đ' "  type="range" min="1000" max="1000000" step="1000" class="form-control" name="price" required placeholder="Type something" style="width: 330px;accent-color: rgb(30,165,159);" value="{{price}}"></input>
+                                    <output style="margin-left: 20px; font-style: italic; margin-top: 1px;" >{{{formatPrice}}}</output>
+                                </div>
+                        </div>
+                        <div class="form-group">
+                                <label>Đơn vị định lượng</label>
+                                <select name="quantity_unit" class="form-control">
+                                    <option value="kg" >kg</option>
+                                    <option value="g">g</option>
+                                    <option value="ml">ml</option>
+                                    <option value="lít">lít</option>
+                                </select>
+                        </div>
+
+                        <div class="form-group">
+                                <label>Link hình ảnh</label>
+                                <input  type="text" class="form-control" name="image" required placeholder="Type something" value="{{image}}"></input>
+                        </div>
+
+                        <div class="form-group">
+                                <label>Ghi chú</label>
+                                <input type="text" class="form-control" name="note" required placeholder="Type something" value="{{note}}"></input>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <button type="submit" class="btn btn-primary waves-effect waves-light">
+                                    Update
+                                </button>
+                                <button type="reset" class="btn btn-default waves-effect m-l-5">
+                                    Reset
+                                </button>
+                            </div>
+                        </div>
+                </form>
+            </div>
+        </div>
+</div>
+
