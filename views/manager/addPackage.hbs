@@ -1,0 +1,210 @@
+<div class="container center-block" style="width:700px">
+    <div class="panel panel-primary">
+        <div class="panel-body">
+            <button class="form-group addProduct" onclick="openAddProduct()">
+                <i id="addIcon" class="ion-android-storage" style="font-size: 25px;color: rgb(30,165,159);"></i> 
+                 <span id="addLabel" style="font-family: system-ui;font-size: 18px;" >
+                        &nbsp; Thêm sản phẩm
+                </span>
+            </button>
+            <div id="addProduct" class="hiddenAddProduct" style="padding: 10px; background: rgb(245,245,245); ">
+                <table id="datatable-fixed-header" style="margin-top:10px;" class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>HÌNH</th>
+                            <th style="width: 400px;">TÊN SẢN PHẨM</th>
+                            <th>GIÁ</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each product}}
+                            <tr>
+                                <td>{{{id}}}</td>
+                                <td>
+                                    <button class="thumbnail imageItem">
+                                        <img class="image" src={{image}} alt="Image not found" onerror="this.onerror=null;this.src='https://bitsofco.de/content/images/2018/12/Screenshot-2018-12-16-at-21.06.29.png';" style="margin: auto;">
+                                    </button>
+                                </td>
+                                <td>{{{name}}}</td>
+                                <td>{{{price}}}</td>
+                                <td>
+                                    <i id="isAdd{{id}}" class="ion-ionic" style="color: rgb(30,100,30); font-size: 20px; text-align: center; margin-top:10px" onclick="addProduct(`{{id}}`,`{{image}}`,`{{name}}`,`{{price}}`)"></i>
+                                </td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+            <form id="formProduct" class="hiddenAddProduct" action="/package/addPackage" method="post">
+                <div id="listProduct" class="hiddenAddProduct" style="padding: 10px; background: rgb(245,245,245); ">
+                </div>
+                <div  style="padding: 10px; background: rgb(235,235,235); display:flex;">
+                    <div style="padding:10px; background: rgb(245,245,245);">
+                        <div class="form-group">
+                            <label>Tên gói nhu yếu phẩm</label>
+                            <input type="text" class="form-control" name="name" required placeholder="Type something"/>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <button type="submit" class="btn btn-primary waves-effect waves-light">
+                                    Submit
+                                </button>
+                                <button type="reset" class="btn btn-default waves-effect m-l-5">
+                                    Reset
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding:10px;">
+                        <div class="form-group">
+                            <label>Giới hạn số gói trong 1 ngày</label>
+                            <div style="display: flex;">
+                                <input oninput="this.nextElementSibling.value = this.value + ' cái' "  type="range" min="1" max="100" value="1" step="1" class="form-control" name="limit_day" required placeholder="Type something" style="width: 320px;accent-color: rgb(30,165,159);"/>
+                                <output style="margin-left: 20px; font-style: italic; margin-top: 1px;">1 cái</output>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Giới hạn số gói trong 1 tuần</label>
+                            <div style="display: flex;">
+                                <input oninput="this.nextElementSibling.value = this.value + ' cái' "  type="range" min="1" max="100" value="1" step="1" class="form-control" name="limit_week" required placeholder="Type something" style="width: 320px;accent-color: rgb(30,165,159);"/>
+                                <output style="margin-left: 20px; font-style: italic; margin-top: 1px;">1 cái</output>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Giới hạn số gói trong 1 tháng</label>
+                            <div style="display: flex;">
+                                <input oninput="this.nextElementSibling.value = this.value + ' cái' "  type="range" min="1" max="100" value="1" step="1" class="form-control" name="limit_year" required placeholder="Type something" style="width: 320px;accent-color: rgb(30,165,159);"/>
+                                <output style="margin-left: 20px; font-style: italic; margin-top: 1px;">1 cái</output>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+
+            </form>
+        </div>
+    </div>
+</div>
+<style> 
+    th{
+        font-size: 12px;
+    }
+    .addProduct{
+        width: 100%;
+        height: 35px;
+    }
+    .imageItem{
+        width: 40px;
+        height: 40px;
+        margin: auto;
+        display: flex;
+    }
+    .image{
+        height: auto; 
+        width: auto; 
+        max-width: 30px; 
+        max-height: 30px;
+    }
+    .imageItemList{
+        width: 140px;
+        height: 140px;
+        margin: auto;
+        display: flex;
+    }
+    .imageList{
+        height: auto; 
+        width: auto; 
+        max-width: 130px; 
+        max-height: 130px;
+    }
+    .hiddenAddProduct{
+        display: none;
+    }
+</style>
+<script>
+    let isVisibleAdd = false;
+    let products=[];
+    function openAddProduct(){
+        if(isVisibleAdd==false){
+            $('#addProduct').removeClass('hiddenAddProduct');
+            $('#addIcon').removeClass('ion-android-storage');
+            $('#addIcon').addClass('ion-arrow-up-b');
+            $('#addLabel').html('&nbsp; Thu gọn')
+            isVisibleAdd=true;
+        }
+        else{
+            $('#addProduct').addClass('hiddenAddProduct');
+            $('#addIcon').removeClass('ion-arrow-up-b');
+            $('#addIcon').addClass('ion-android-storage');
+            $('#addLabel').html('&nbsp; Thêm sản phẩm')
+            isVisibleAdd=false;
+        }
+
+
+    }
+    function addProduct(id,image,name,price){
+        if($('#isAdd'+id).hasClass('ion-ionic')==true){
+            $('#isAdd'+id).removeClass('ion-ionic');
+            $('#isAdd'+id).addClass('ion-checkmark');
+            products.push(id);
+            $('#listProduct').html($('#listProduct').html()+createProductObject(image,name,price,id));
+            $('#listProduct').removeClass('hiddenAddProduct');
+            $('#formProduct').removeClass('hiddenAddProduct');
+        }
+    }
+    function increaseCount(id,id_output){
+        let val = $('#'+id).val();
+        val=Number(val)+1;
+        if(val<1001){
+            $('#'+id).val(val);
+            $('#'+id_output).html(val+' sản phẩm')
+        }
+    }
+    function decreaseCount(id,id_output){
+        let val = $('#'+id).val();
+        val=Number(val)-1;
+        if(val>-1){
+            $('#'+id).val(val);
+            $('#'+id_output).html(val+' sản phẩm')
+        }
+    }
+    function createProductObject(image,name,price,id){
+        return `
+            <div style="padding: 10px; background:rgb(235,235,235); display:flex;">
+                            <div style="width: 140px;">
+                                <button class="thumbnail imageItemList">
+                                    <img class="imageList" src="${image}" alt="Image not found" onerror="this.onerror=null;this.src='https://bitsofco.de/content/images/2018/12/Screenshot-2018-12-16-at-21.06.29.png';" style="margin: auto;">
+                                </button>
+                            </div>
+                            <div style=" margin: 0px 10px 0px 20px; display:flex; flex-direction:column; position:relative;">
+                                <strong style="height: 25px;">${name}</strong>
+                                <h1 style="height: 45px;">${price}</h1>
+                                <input style="display:none;" type="text" value="${id}" name="idProduct">
+                                <div style="display: flex;">
+                                    <input id="list-item${id}"
+                                           oninput="this.nextElementSibling.value = Intl.NumberFormat('vi-VN').format(this.value) + ' sản phẩm'"
+                                           type="range"
+                                           min="0"
+                                           max="1000"
+                                           value="1"
+                                           step="1" 
+                                           class="form-control" 
+                                           name="product_count" required
+                                           placeholder="Type something" 
+                                           style="padding:0px;width: 300px;accent-color: rgb(30,165,159); margin:0px 15px 0px 15px;"/>
+                                    <output id="list-item-output${id}" style="width:105px;margin-left: 10px; font-style: italic; margin-top: 3px;">1 sản phẩm</output>
+                                </div>
+                                <div style="  position: absolute;top: 91px;">
+                                    <i onclick="decreaseCount('list-item${id}','list-item-output${id}')" class="ion-arrow-left-b" style="color:rgb(30,165,159); width:10px;margin-top: 5px; margin-right: 10px; font-size: 26px;"></i>
+                                </div>
+                                <div style="position: absolute;top: 91px; right:102px;">
+                                    <i onclick="increaseCount('list-item${id}','list-item-output${id}')" class="ion-arrow-right-b" style="color:rgb(30,165,159); width:10px; margin-top: 5px; margin-right: 10px; font-size: 26px;"></i>
+                                </div>
+                            </div>
+                        </div>
+        `;
+    }
+</script>

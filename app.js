@@ -20,6 +20,7 @@ app.use(session({
 const patient = require("./routes/patients");
 const product = require("./routes/products");
 const userAccount = require("./routes/user");
+const package = require("./routes/package");
 
 
 //hbs
@@ -46,6 +47,8 @@ sq.sequelize
 app.use("/patient", patient);
 app.use("/product",product);
 app.use("/user",userAccount);
+app.use("/addUserAccount",userAccount);
+app.use("/package",package);
 
 app.use("/", (req, res) => {
   res.render("manager/managerDashboard", {
