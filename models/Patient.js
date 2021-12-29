@@ -14,7 +14,8 @@ module.exports = function(sequelize, DataTypes) {
     },
     identity_card: {
       type: DataTypes.STRING(20),
-      allowNull: true
+      allowNull: true,
+      unique: "identity"
     },
     birthdate: {
       type: DataTypes.DATE,
@@ -47,6 +48,13 @@ module.exports = function(sequelize, DataTypes) {
         unique: true,
         fields: [
           { name: "id" },
+        ]
+      },
+      {
+        name: "identity",
+        unique: true,
+        fields: [
+          { name: "identity_card" },
         ]
       },
     ]
