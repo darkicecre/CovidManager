@@ -4,8 +4,7 @@ const router = express.Router();
 //set controller for router
 const controller = require("../controllers/userAccount/userController");
 
-router.get("/", (req,res)=>{
-    res.render("manager/addUserAccount");
-});
-
+router.get("/", controller.userList);
+router.get("/addUserAccount", controller.addUserAccountPage);
+router.post('/addUserAccount',controller.addUserAccount);
 module.exports = router;

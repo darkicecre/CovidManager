@@ -17,6 +17,14 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(30),
       allowNull: true
     },
+    name: {
+      type: DataTypes.STRING(100),
+      allowNull: true
+    },
+    identity_card: {
+      type: DataTypes.STRING(20),
+      allowNull: true
+    },
     role: {
       type: DataTypes.STRING(15),
       allowNull: true

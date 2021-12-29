@@ -1,9 +1,11 @@
 <div class="container">
     <div class="div" style="display: flex; flex-direction: row; justify-content:flex-end">
         <div style="padding: 10px">
-            <a href="/patient/changeInfo" style="color:white;">
-                <button type="button"class="btn btn-primary waves-effect waves-light" style="margin-bottom: 10px;">Chuyển trạng thái/Cơ sở điều trị</button>
-            </a>
+            
+            <form action="/patient/changeInfo" method="get">
+                    <input type="text" name="id" value={{id}} style="display: none;">
+                    <button type="submit" class="btn btn-primary waves-effect waves-light" style="margin-bottom: 10px;">Chuyển trạng thái/Cơ sở điều trị</button>
+            </form>
         </div>
 
         

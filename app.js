@@ -3,8 +3,19 @@ const cors = require("cors");
 const pool = require("./config/db.config");
 const hbs = require("hbs");
 const path = require("path");
+const flash = require("connect-flash");
+const session = require('express-session');
+const cookieParser = require("cookie-parser");
 const app = express();
 
+app.use(cookieParser());
+app.use(flash());
+app.use(session({
+  secret: 'secret',
+  cookie: {maxAge: 60000},
+  resave: false,
+  saveUninitialized: false
+}));
 //routes
 const patient = require("./routes/patients");
 const product = require("./routes/products");
@@ -34,7 +45,7 @@ sq.sequelize
 //set routes for server
 app.use("/patient", patient);
 app.use("/product",product);
-app.use("/addUserAccount",userAccount);
+app.use("/user",userAccount);
 
 app.use("/", (req, res) => {
   res.render("manager/managerDashboard", {

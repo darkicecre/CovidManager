@@ -61,5 +61,21 @@ const patientDetail =  (_id) => {
   return models.Patient.findByPk( _id,{raw: true});
 };
 
-
-module.exports = { listPatient, addPatient, addPatient, patientDetail };
+const  updatePatient =async (pt)=>{
+  try {
+    await models.Patient.update(
+      {
+        status: pt.status,
+        treatment_place_id: pt.treatment_place,
+      },
+      {
+        where: {
+          id: pt.id,
+        },
+      }
+    );
+  } catch (err) {
+    console.log(err);
+  }
+}
+module.exports = { listPatient, addPatient, addPatient, patientDetail,updatePatient };

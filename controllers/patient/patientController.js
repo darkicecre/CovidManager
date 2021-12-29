@@ -49,11 +49,17 @@ const add = async (req, res) => {
     .then(res.redirect("/patient"))
 };
 
-const changeInfo =async (req, res) => {
+const changeInfoPage =async (req, res) => {
   const tp = await serviceTreatment_place.getListTreatmentPlace();
-  console.log(tp);
-  res.render("/manager/updatePatient",{
+  console.log(req.query);
+  res.render('manager/updatePatient',{
   treatment_place: tp,
+  id: req.query.id
   })
 }
-module.exports = { list, addPatient, PatientDetail, add,changeInfo };
+const changeInfo = async(req, res) =>{
+    const pt = req.body;
+    console.log(pt);
+    servicePatient.updatePatient(pt).then(res.redirect("/patient"));
+}
+module.exports = { list, addPatient, PatientDetail, add,changeInfoPage,changeInfo };
