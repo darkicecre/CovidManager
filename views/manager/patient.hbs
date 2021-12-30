@@ -1,64 +1,47 @@
-<div class="container" >
-    <div style="display:flex; justify-content:flex-end">
-        <button type="button" class="btn btn-primary waves-effect waves-light " style="margin-bottom: 10px;"><a href="/patient/addPatient" style="color:white;">Thêm người liên quan</a></button>
-    </div>
-    
-    <div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-primary">
-                <div class="panel-body">
-                        
-                        <table id="datatable-fixed-header" class="table table-striped table-bordered">
-                            <thead>
-                                <tr>
-                                <th  class="text-center" >HỌ TÊN</th>
-                                <th  class="text-center" style="width:15%">CMND</th>
-                                <th  class="text-center" style="width:10%">NĂM SINH</th>
-                                <th  class="text-center" style="width:35%">ĐỊA CHỈ</th>
-                                <th  class="text-center">CƠ SỞ ĐIỀU TRỊ</th>
-                                <th style="width:15%">TRẠNG THÁI</th>
-                                </tr>
-                            </thead>
+<div class="container">
+  <div style="display:flex; justify-content:flex-end">
+    <a href="/patient/addPatient" style="color:white;"><button
+        type="button"
+        class="btn btn-primary waves-effect waves-light"
+        style="margin-bottom: 10px;"
+      >Thêm người liên quan</button></a>
+  </div>
 
-                            <tbody>
-                            <tr>
-                           
-                                <td><a href="/patient/patientDetail">Tiger Nixon</a></td>
-                                <td>System Architect</td>
-                                <td>Edinburgh</td>
-                                <td>61</td>
-                                <td>2011/04/25</td>
-                                <td>$320,800</td>
-                                
-                            </tr>
-                            <tr>
-                                <td>Garrett Winters</td>
-                                <td>Accountant</td>
-                                <td>Tokyo</td>
-                                <td>63</td>
-                                <td>2011/07/25</td>
-                                <td>$170,750</td>
-                            </tr>
-                            <tr>
-                                <td>Hermione Butler</td>
-                                <td>Regional Director</td>
-                                <td>London</td>
-                                <td>47</td>
-                                <td>2011/03/21</td>
-                                <td>$356,250</td>
-                            </tr>
-                            <tr>
-                                <td>Lael Greer</td>
-                                <td>Systems Administrator</td>
-                                <td>London</td>
-                                <td>21</td>
-                                <td>2009/02/27</td>
-                                <td>$103,500</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-primary">
+        <div class="panel-body">
+
+          <table
+            id="datatable-fixed-header"
+            class="table table-striped table-bordered"
+          >
+            <thead>
+              <tr>
+                <th class="text-center">HỌ TÊN</th>
+                <th class="text-center" style="width:15%">CMND</th>
+                <th class="text-center" style="width:10%">NĂM SINH</th>
+                <th class="text-center" style="width:35%">ĐỊA CHỈ</th>
+                <th class="text-center">CƠ SỞ ĐIỀU TRỊ</th>
+                <th style="width:15%">TRẠNG THÁI</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {{#each patient}}
+                <tr>
+                  <td> <a href="/patient/{{id}}">{{name}}</a></td>
+                  <td>{{identity_card}}</td>
+                  <td>{{birthdate}}</td>
+                  <td>{{address}}</td>
+                  <td>{{"treatment_place.name"}}</td>
+                  <td>{{status}}</td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
         </div>
+      </div>
     </div>
+  </div>
 </div>
