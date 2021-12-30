@@ -46,4 +46,4 @@ app.use('/',(req,res)=>{
 app.use('/patient/addPatient',patient);
 //do not change
 const port = process.env.PORT || 3000;
-app.listen(port, ()=> console.log("Server listening on port "+ port));
+app.listen(port, ()=> console.log("Server listen on port "+ port));
