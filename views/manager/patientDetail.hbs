@@ -1,14 +1,18 @@
 <div class="container">
     <div class="div" style="display: flex; flex-direction: row; justify-content:flex-end">
-        <div style="padding: 10px">
+        <div style="margin-right: 10px">
             
             <form action="/patient/changeInfo" method="get">
                     <input type="text" name="id" value={{id}} style="display: none;">
                     <button type="submit" class="btn btn-primary waves-effect waves-light" style="margin-bottom: 10px;">Chuyển trạng thái/Cơ sở điều trị</button>
             </form>
         </div>
-
-        
+        <div>
+            <form action="/patient/addContact" method="get">
+                    <input type="text" name="id" value={{id}} style="display: none;">
+                    <button type="submit" class="btn btn-primary waves-effect waves-light" style="margin-bottom: 10px;">Thêm người tiếp xúc</button>
+            </form>
+        </div>
     </div>
     <div class="col-md-12">
         <div class="panel panel-primary">
@@ -21,19 +25,21 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th style="width:40%">HỌ TÊN</th>
+                                    <th style="width:35%">HỌ TÊN</th>
                                     <th style="width:10%" >CMND</th>
                                     <th style="width:40%">ĐỊA CHỈ</th>
+                                    <th style="width:15%">Trạng thái</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {{!-- {{#each patient}} --}}
+                                {{#each patient}} 
                                 <tr>
-                                    <td>{{name}}</td>
-                                    <td>{{identity_card}}</td>
-                                    <td>{{address}}</td>
+                                    <td>{{'id_other_person_Patient.name'}}</td>
+                                    <td>{{'id_other_person_Patient.identity_card'}}</td>
+                                    <td>{{'id_other_person_Patient.address'}}</td>
+                                    <td>{{'id_other_person_Patient.status'}}</td>
                                 </tr>
-                                {{!-- {{/each}} --}}
+                                {{/each}}
                             </tbody>
                         </table>
                     </div>

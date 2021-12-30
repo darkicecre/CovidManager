@@ -1,6 +1,7 @@
 const { models } = require("..");
 const { QueryTypes } = require("sequelize");
-
+const sequelize = require("sequelize");
+const Op = sequelize.Op;
 
 
 // get all patients
@@ -14,30 +15,17 @@ const listPatient = () => {
     }]
    });
 };
+//find patient by identity_card
+const findPatientByIdentity = (identity_card) => {
+  return models.Patient.findOne({
+    where: {identity_card},
+    raw: true,
+  })
+}
+const findPatientById = (_id) =>{
+  return models.Patient.findOne({id: _id});
+}
 
-//add patient raw query
-// const addPatient = async (patient) => {
-//   try {
-//     await sq.sequelize.query(
-//       'INSERT INTO "Patient"(id, name, identity_card, birthdate, address, status, treatment_place_id) VALUES (' +
-//         99 +
-//         ", '" +
-//         patient.name +
-//         "', " +
-//         "null" +
-//         ", " +
-//         "null" +
-//         ",'" +
-//         patient.address +
-//         "'," +
-//         "null" +
-//         "," +
-//         "null" +
-//         ");",
-//       { type: QueryTypes.INSERT }
-//     );
-//   } catch (err) {}
-// };
 const addPatient = async (patient) => {
   try {
     await models.Patient.create({
@@ -55,12 +43,42 @@ const addPatient = async (patient) => {
     }
   }
 };
-
+const  addContactPatient = async (id_person,id_other_person) => {
+  try {
+    await models.ContactHistory.create({
+      id_person,
+      id_other_person
+    });
+  } catch (err) {
+    if (err) {
+      console.log(err);
+    }
+  }
+}
 //get detail patient
-const patientDetail =  (_id) => {
-  return models.Patient.findByPk( _id,{raw: true});
-};
+const patientDetail = async  (_id) => {
+  let patient;
+  try{
+    patient = await models.ContactHistory.findAll({
+      include: [
+        {
+          model: models.Patient,
+          as:'id_other_person_Patient',
+          attribute: ["name", "identity_card", "address", "status","id"],
+        },
+      ],
+      where: {
+        [Op.and]: [
+          {
+            id_person: _id
+          },
 
+        ],
+      },raw:true,
+    });
+  } catch (err) {console.log(err);}
+  return patient;
+}
 const  updatePatient =async (pt)=>{
   try {
     await models.Patient.update(
@@ -78,4 +96,13 @@ const  updatePatient =async (pt)=>{
     console.log(err);
   }
 }
-module.exports = { listPatient, addPatient, addPatient, patientDetail,updatePatient };
+module.exports = {
+  listPatient,
+  addPatient,
+  addPatient,
+  patientDetail,
+  updatePatient,
+  addContactPatient,
+  findPatientByIdentity,
+  findPatientById
+};

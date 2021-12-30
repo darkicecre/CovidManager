@@ -21,7 +21,7 @@ const patient = require("./routes/patients");
 const product = require("./routes/products");
 const userAccount = require("./routes/user");
 const package = require("./routes/package");
-
+const payment = require("./routes/payment");
 
 //hbs
 app.set("view engine", "hbs");
@@ -49,6 +49,7 @@ app.use("/product",product);
 app.use("/user",userAccount);
 app.use("/addUserAccount",userAccount);
 app.use("/package",package);
+app.use("/payment",payment)
 
 app.use("/", (req, res) => {
   res.render("manager/managerDashboard", {

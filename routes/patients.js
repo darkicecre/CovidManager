@@ -8,7 +8,8 @@ router.get("/addPatient", controller.addPatient);
 
 
 router.post('/addPatient', controller.add);
-
+router.get('/addContact',controller.addContactPage);
+router.post('/addContact',controller.addContact);
 router.get("/changeInfo",controller.changeInfoPage);
 router.post("/changeInfo",controller.changeInfo);
 router.get("/:id", controller.PatientDetail);

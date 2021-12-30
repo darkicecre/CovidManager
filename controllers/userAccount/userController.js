@@ -17,7 +17,6 @@ const addUserAccount = async (req,res)=>{
     let user = await service.findAccount(account)
     console.log(user);
     if(user){
-        console.log("dadasda")
         req.flash("accountMessage", "Account already exists!");
         return  res.redirect('/user/addUserAccount');
     }
