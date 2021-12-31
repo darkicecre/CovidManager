@@ -6,27 +6,30 @@ const path = require("path");
 const flash = require("connect-flash");
 const session = require('express-session');
 const cookieParser = require("cookie-parser");
+const passport = require("passport");
+
 const app = express();
 
 app.use(cookieParser());
 app.use(flash());
 app.use(session({
-  secret: 'secret',
-  cookie: {maxAge: 60000},
-  resave: false,
-  saveUninitialized: false
+    secret: 'secret',
+    cookie: { maxAge: 60000 },
+    resave: false,
+    saveUninitialized: false
 }));
 //routes
 const patient = require("./routes/patients");
 const product = require("./routes/products");
-const userAccount = require("./routes/user");
 const package = require("./routes/package");
+const userAccount = require("./routes/user");
+const login = require("./routes/login");
 
 
 //hbs
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "views"));
-hbs.registerPartials(__dirname + "/views/partials", function (err) {});
+hbs.registerPartials(__dirname + "/views/partials", function(err) {});
 
 //cors
 app.use(cors());
@@ -39,23 +42,21 @@ const { QueryTypes } = require("sequelize");
 const { models } = require("./models");
 const sq = require("./models/index");
 sq.sequelize
-  .authenticate()
-  .then(() => console.log("Database connected"))
-  .catch((err) => console.log(err));
+    .authenticate()
+    .then(() => console.log("Database connected"))
+    .catch((err) => console.log(err));
 
 //set routes for server
 app.use("/patient", patient);
-app.use("/product",product);
-app.use("/user",userAccount);
-app.use("/addUserAccount",userAccount);
-app.use("/package",package);
+app.use("/product", product);
+app.use("/user", userAccount);
+app.use("/login", login);
+app.use("/package", package);
 
 app.use("/", (req, res) => {
-  res.render("manager/managerDashboard", {
-    nav: "nav",
-    sidebar: "sidebar",
-    tag: "Patient",
-  });
+    res.render("manager/managerDashboard", {
+        tag: "Patient",
+    });
 });
 
 //do not change

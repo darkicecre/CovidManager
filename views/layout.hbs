@@ -32,8 +32,18 @@
     </head>
     <body class="fixed-left">
         <div id="wrapper">
-        {{> nav}}
-        {{> sidebar}}
+        {{#if nav includeZero=true}}
+        {{else}}
+                {{> nav}}
+
+        {{/if}}
+
+        {{#if sidebar includeZero=true}}
+        {{else}}
+            {{> sidebar}}
+
+        {{/if}}
+
         <div class="content-page">
                 <!-- Start content -->
                 <div class="content">
@@ -106,7 +116,7 @@
 
         <!-- Datatable init js -->
         <script src="/assets/pages/datatables.init.js"></script>
-        <script src="/js_alert/validation.js"></script>
+
         
 </body>
         

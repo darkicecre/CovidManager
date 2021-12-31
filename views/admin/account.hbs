@@ -1,0 +1,45 @@
+<div class="container">
+  <div style="display:flex; justify-content:flex-end">
+    <a href="/user/addAccount" style="color:white;"><button
+        type="button"
+        class="btn btn-primary waves-effect waves-light"
+        style="margin-bottom: 10px;"
+      >Thêm Tài Khoản Mới</button></a>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-primary">
+        <div class="panel-body">
+
+          <table
+            id="datatable-fixed-header"
+            class="table table-striped table-bordered"
+          >
+            <thead>
+              <tr>
+                <th class="text-center">USER NAME</th>
+                <th class="text-center" style="width:20%">PASSWORD</th>
+                <th class="text-center" style="width:10%">TRẠNG THÁI</th>
+                <th class="text-center">IS ALERT</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {{#each account}}
+              
+                <tr>
+                  <td> <a href="/user/{{id}}">{{user_name}}</a></td>
+                  <td> <a href="/user/{{id}}">{{password}}</a></td>
+
+                  <td><a href="/user/{{id}}">{{active}}</a></td>
+                  <td><a href="/user/{{id}}">{{is_alert}}</a></td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
