@@ -61,6 +61,7 @@ const add = (req, res) => {
   }
   Jsonfy=Jsonfy+']';
   service.addPackage(pt,Jsonfy).then(res.redirect("/package"));
+  console.log(Jsonfy);
 };
 
 module.exports = { list, addPackage,add};
