@@ -1,51 +1,41 @@
 const service = require("../../models/Services/treatment_placeService");
+const serviceAddress = require("../../models/Services/addressService");
 
 const list = async (req, res) => {
   const pt = await service.getListTreatmentPlace();
-  
-  res.render("manager/treatmentPlace", {
+  for(var i=0;i<pt.length;i++){
+    pt[i].address=JSON.parse(pt[i].address);
+    var address = pt[i].address.detail+", "+pt[i].address.district+", "+pt[i].address.city;
+    pt[i].address=address;
+  }
+  res.render("admin/treatmentPlace", {
     title: "Covid Manager",
     tag: "TreatmentPlace",
     treatmentPlace: pt,
   });
 };
 const addTreatmentPlace = (req, res) => {
-   res.render("manager/addTreatmentPlace", {
+  const addressData = serviceAddress.getDataStringify();
+  const obj = JSON.parse(addressData);
+   res.render("admin/addTreatmentPlace", {
      nav: "nav",
      sidebar: "sidebar",
      tag: "Add Treatment Place",
+     address: obj,
+     addressStringify:addressData,
    });
 };
-// const toUpdateProduct = async (req,res)=>{
-//   const pt = req.body;
-//   const obj = await service.findById(pt);
-//   res.render("manager/updateProduct",{
-//     nav:"nav",
-//     sidebar: "sidebar",
-//     tag: "Update Product",
-//     id:obj[0].id,
-//     name:obj[0].name,
-//     price:obj[0].price,
-//     formatPrice:Intl.NumberFormat('vi-VN').format(obj[0].price) + ' đ',
-//     image:obj[0].image,
-//     note:obj[0].note,
-//   })
-//}
-
 const add = (req, res) => {
    const pt = req.body;
+   var address = '{"city":"'+pt.city+'","district":"'+pt.address_district+'","detail":"'+pt.address_detail+'"}';
+  
    console.log(pt);
-   service.addTreatmentPlace(pt)
+   service.addTreatmentPlace(pt,address)
      .then(res.redirect("/treatmentPlace"))
 };
-// const deletePro=(req,res)=>{
-//   const pt = req.body;
-//   console.log(pt);
-//   service.deleteProduct(pt).then(res.redirect("/product"));
-// }
 
 const treatmentPlaceDetail = (req,res)=>{
-  res.render("manager/treatmentPlaceDetail",{
+  res.render("admin/treatmentPlaceDetail",{
     nax:"nav",
     sidebar:"sidebar",
     tag:"Treatment Place Detail"

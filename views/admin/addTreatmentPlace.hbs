@@ -1,0 +1,86 @@
+<div class="container center-block" style="width:500px">
+
+            <div class="panel panel-primary">
+                <div class="panel-body">
+                    <form  action="/treatmentPlace/addTreatmentPlace" method="post">
+                        <div class="form-group">
+                                <label>Tên địa điểm</label>
+                                <input type="text" class="form-control" name="name" required placeholder="Type something"/>
+                        </div>
+
+                        <div class="form-group">
+                                <label>Địa chỉ - Thành phố/Tỉnh :</label>
+                                <select id="city" name="address_city" class="form-control" onchange="addressChange(`{{addressStringify}}`)" required>
+                                    <option value="" selected disabled hidden>Choose here</option>
+                                    {{#each address}}
+                                        <option value="{{id}}">{{name}}</option>
+                                    {{/each}}
+                                </select>
+                                <input type="text" name="city" id="mainCity" class="hidden">
+                        </div>
+                        <div class="form-group hidden" id="div_district">
+                                <label >Địa chỉ - Quận/Huyện :</label>
+                                <select id="addressDistrict" name="address_district" class="form-control" onchange="districtChange()" required>
+                                    <option value="" selected disabled hidden>Choose here</option>
+                                </select>
+                        </div>
+                        <div class="form-group hidden" id="div_detail">
+                                <label >Địa chỉ - Chi tiết số nhà/đường :</label>
+                                <div >
+                                    <input id="detail" type="text" name="address_detail" class="form-control" required onchange="detailChange()">
+                                </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Sức chứa</label>
+                            <div>
+                            <input data-parsley-type="number" type="text" name="capacity" class="form-control" required placeholder="Enter only numbers"/>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <div>
+                                <button type="submit" class="btn btn-primary waves-effect waves-light">
+                                    Submit
+                                </button>
+                                <button type="reset" class="btn btn-default waves-effect m-l-5">
+                                    Reset
+                                </button>
+                            </div>
+                        </div>
+                </form>
+            </div>
+        </div>
+</div>
+
+<style>
+    .hidden{
+        display:none;
+    }
+</style>
+<script>
+    var check =false;
+    var object=[];
+    function addressChange(address){
+        if(check==false){
+            check=true;
+            object=JSON.parse(address);
+        }
+        var d = document.getElementById("city").value;
+        document.getElementById("mainCity").value = object[d-1].name;
+        document.getElementById("div_district").classList.remove("hidden");
+        var data = document.getElementById("addressDistrict");
+        data.innerHTML='<option value="" selected disabled hidden>Choose here</option>'
+        document.getElementById("div_detail").classList.add("hidden");
+
+        for(var i=0;i<object[d-1].district.length;i++){
+            const para = document.createElement("option");
+            para.text = object[d-1].district[i].name;
+            para.value = object[d-1].district[i].name;
+            data.appendChild(para);
+        }
+    }
+    function districtChange(){
+        document.getElementById("div_detail").classList.remove("hidden");
+    }
+    
+</script>

@@ -11,10 +11,10 @@ const getListTreatmentPlace =  () => {
 //   console.log(t);
 //   return t;
 // }
-const addTreatmentPlace = async (treatmentPlace) => {
+const addTreatmentPlace = async (treatmentPlace,address) => {
   try {
     const t = await models.TreatmentPlace.create({
-      address: treatmentPlace.address,
+      address: address,
       name: treatmentPlace.name,
       capacity: treatmentPlace.capacity
     });
