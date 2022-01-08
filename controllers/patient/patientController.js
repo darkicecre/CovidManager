@@ -2,33 +2,40 @@ const {models} = require("../../models");
 //service
 const servicePatient = require("../../models/Services/patientService");
 const serviceTreatment_place = require("../../models/Services/treatment_placeService");
+const serviceAddress = require("../../models/Services/addressService");
 
 //controller
 const list = async (req, res) => {
   const pt = await servicePatient.listPatient();
-  console.log(pt);
+  for(var i=0;i<pt.length;i++){
+    var address = JSON.parse(pt[i].address);
+    pt[i].address = address.detail+', '+address.district+', '+address.city;
+  }
   res.render("manager/patient", {
     title: "Covid Manager",
     tag: "Covid Patients",
-    patient: pt,
-    
+    patient: pt,    
   });
 };
 const addPatient = async (req, res) => {
   const tp = await serviceTreatment_place.getListTreatmentPlace();
-  console.log(tp);
+  const addressData = serviceAddress.getDataStringify();
+  const obj = JSON.parse(addressData);
 
   res.render("manager/addPatient", {
     nav: "nav",
     sidebar: "sidebar",
     tag: "Add Patient",
+    address: obj,
+    addressStringify:addressData,
     treatment_place: tp,
   });
 };
 const PatientDetail = async (req, res) => {
   try{
   const detailPatient = await servicePatient.patientDetail(req.params.id);
-  console.log(detailPatient);
+  var address = JSON.parse(detailPatient.address);
+  detailPatient.address = address.detail+', '+address.district+', '+address.city;
   res.render("manager/patientDetail", {
     title: "Covid Manager",
     tag: "Patient Detail",
@@ -42,10 +49,10 @@ const PatientDetail = async (req, res) => {
 
 const add = async (req, res) => {
   const pt = req.body;
+  var address = '{"city":"'+pt.city+'","district":"'+pt.address_district+'","detail":"'+pt.address_detail+'"}';
+  console.log(address);
   
-  console.log(pt);
-  
-  servicePatient.addPatient(pt)
+  servicePatient.addPatient(pt,address)
     .then(res.redirect("/patient"))
 };
 

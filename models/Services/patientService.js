@@ -38,11 +38,11 @@ const listPatient = () => {
 //     );
 //   } catch (err) {}
 // };
-const addPatient = async (patient) => {
+const addPatient = async (patient,address) => {
   try {
     await models.Patient.create({
       name: patient.name,
-      address: patient.address,
+      address: address,
       identity_card: patient.CMND,
       birthdate:  '2016-06-22 19:10:25-07',
       status: patient.status,
