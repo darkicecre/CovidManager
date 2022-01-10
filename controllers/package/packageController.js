@@ -63,7 +63,12 @@ const add = async (req, res) => {
     }
   }
   Jsonfy=Jsonfy+']';
+<<<<<<< HEAD
   await service.addPackage(pt,Jsonfy).then(res.redirect("/package"));
+=======
+  service.addPackage(pt,Jsonfy).then(res.redirect("/package"));
+  console.log(Jsonfy);
+>>>>>>> feature/treatment-place
 };
 const updatePackage = async (req,res)=>{
   const pt = req.body;
