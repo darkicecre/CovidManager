@@ -1,7 +1,7 @@
 <div class="container center-block" style="width:700px">
     <div class="panel panel-primary">
         <div class="panel-body">
-            <button class="form-group addProduct" onclick="openAddProduct()">
+            <button class="form-group addProduct" onclick="openAddProduct(`{{listProduct}}`)">
                 <i id="addIcon" class="ion-android-storage" style="font-size: 25px;color: rgb(30,165,159);"></i> 
                  <span id="addLabel" style="font-family: system-ui;font-size: 18px;" >
                         &nbsp; Thêm sản phẩm
@@ -37,17 +37,24 @@
                     </tbody>
                 </table>
             </div>
-            <form id="formProduct" class="hiddenAddProduct" action="/package/addPackage" method="post">
-                <div id="listProduct" class="hiddenAddProduct" style="padding: 10px; background: rgb(245,245,245); ">
+                <button id="isLoadData" class="form-group addProduct" onclick="onLoadListProduct(`{{listProduct}}`)">
+                    <i id="addIcon" class="ion-android-storage" style="font-size: 25px;color: rgb(30,165,159);"></i> 
+                    <span id="addLabel" style="font-family: system-ui;font-size: 18px;" >
+                            &nbsp; Hiển thị sản phẩm đã chọn
+                    </span>
+                </button>
+            <form id="formProduct" action="/package/update" method="post">
+                <div id="listProduct" class="hiddenAddProduct" style="padding: 10px; background: rgb(245,245,245);">
                 </div>
                 <div  style="padding: 10px; background: rgb(235,235,235); display:flex;">
                     <div style="padding:10px; background: rgb(245,245,245);">
                         <div class="form-group">
                             <label>Tên gói nhu yếu phẩm</label>
-                            <input type="text" class="form-control" name="name" required placeholder="Type something"/>
+                            <input type="text" class="form-control" name="name" required placeholder="Type something" value="{{name}}"/>
                         </div>
                         <div class="form-group">
                             <div>
+                                <input type="text" name="id" value="{{id}}" style="display: none;">
                                 <button type="submit" class="btn btn-primary waves-effect waves-light">
                                     Submit
                                 </button>
@@ -61,22 +68,22 @@
                         <div class="form-group">
                             <label>Giới hạn số gói trong 1 ngày</label>
                             <div style="display: flex;">
-                                <input oninput="this.nextElementSibling.value = this.value + ' cái' "  type="range" min="1" max="100" value="1" step="1" class="form-control" name="limit_day" required placeholder="Type something" style="width: 320px;accent-color: rgb(30,165,159);"/>
-                                <output style="margin-left: 20px; font-style: italic; margin-top: 1px;">1 cái</output>
+                                <input value="{{limitDay}}" oninput="this.nextElementSibling.value = this.value + ' cái' "  type="range" min="1" max="100" value="1" step="1" class="form-control" name="limit_day" required placeholder="Type something" style="width: 320px;accent-color: rgb(30,165,159);"/>
+                                <output style="margin-left: 20px; font-style: italic; margin-top: 1px;">{{{limitDay}}} cái</output>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Giới hạn số gói trong 1 tuần</label>
                             <div style="display: flex;">
-                                <input oninput="this.nextElementSibling.value = this.value + ' cái' "  type="range" min="1" max="100" value="1" step="1" class="form-control" name="limit_week" required placeholder="Type something" style="width: 320px;accent-color: rgb(30,165,159);"/>
-                                <output style="margin-left: 20px; font-style: italic; margin-top: 1px;">1 cái</output>
+                                <input value="{{limitWeek}}" oninput="this.nextElementSibling.value = this.value + ' cái' "  type="range" min="1" max="100" value="1" step="1" class="form-control" name="limit_week" required placeholder="Type something" style="width: 320px;accent-color: rgb(30,165,159);"/>
+                                <output style="margin-left: 20px; font-style: italic; margin-top: 1px;">{{{limitWeek}}} cái</output>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Giới hạn số gói trong 1 tháng</label>
                             <div style="display: flex;">
-                                <input oninput="this.nextElementSibling.value = this.value + ' cái' "  type="range" min="1" max="100" value="1" step="1" class="form-control" name="limit_month" required placeholder="Type something" style="width: 320px;accent-color: rgb(30,165,159);"/>
-                                <output style="margin-left: 20px; font-style: italic; margin-top: 1px;">1 cái</output>
+                                <input value="{{limitMonth}}" oninput="this.nextElementSibling.value = this.value + ' cái' "  type="range" min="1" max="100" value="1" step="1" class="form-control" name="limit_month" required placeholder="Type something" style="width: 320px;accent-color: rgb(30,165,159);"/>
+                                <output style="margin-left: 20px; font-style: italic; margin-top: 1px;">{{{limitMonth}}} cái</output>
                             </div>
                         </div>
                     </div>
@@ -126,8 +133,22 @@
 </style>
 <script>
     let isVisibleAdd = false;
+    let isLoadData = false;
     let products=[];
-    function openAddProduct(){
+    function onLoadListProduct(listProduct){
+        products=JSON.parse(listProduct);
+            for(var i =0;i<products.length;i++){
+                $('#isAdd'+products[i].id).removeClass('ion-ionic');
+                $('#isAdd'+products[i].id).addClass('ion-checkmark');
+                $('#listProduct').html($('#listProduct').html()+createProductObject(products[i].image,products[i].name,products[i].price,products[i].id,products[i].count));
+                $('#listProduct').removeClass('hiddenAddProduct');
+                $('#formProduct').removeClass('hiddenAddProduct');
+            }
+            $('#isLoadData').addClass('hiddenAddProduct')
+            isLoadData=true;
+    }
+    function openAddProduct(listProduct){
+        console.log(listProduct)
         if(isVisibleAdd==false){
             $('#addProduct').removeClass('hiddenAddProduct');
             $('#addIcon').removeClass('ion-android-storage');
@@ -142,21 +163,32 @@
             $('#addLabel').html('&nbsp; Thêm sản phẩm')
             isVisibleAdd=false;
         }
-
-
+        if(isLoadData==false){
+            products=JSON.parse(listProduct);
+            for(var i =0;i<products.length;i++){
+                $('#isAdd'+products[i].id).removeClass('ion-ionic');
+                $('#isAdd'+products[i].id).addClass('ion-checkmark');
+                $('#listProduct').html($('#listProduct').html()+createProductObject(products[i].image,products[i].name,products[i].price,products[i].id,products[i].count));
+                $('#listProduct').removeClass('hiddenAddProduct');
+                $('#formProduct').removeClass('hiddenAddProduct');
+            }
+            $('#isLoadData').addClass('hiddenAddProduct')
+            isLoadData=true;
+        }
     }
     function addProduct(id,image,name,price){
         var it = {
             'id': id,
             'name': name,
             'image': image,
-            'price': price
+            'price': price,
+            'count':1
         }
         if($('#isAdd'+id).hasClass('ion-ionic')==true){
             $('#isAdd'+id).removeClass('ion-ionic');
             $('#isAdd'+id).addClass('ion-checkmark');
             products.push(it);
-            $('#listProduct').html($('#listProduct').html()+createProductObject(image,name,price,id));
+            $('#listProduct').html($('#listProduct').html()+createProductObject(image,name,price,id,1));
             $('#listProduct').removeClass('hiddenAddProduct');
             $('#formProduct').removeClass('hiddenAddProduct');
         }
@@ -192,14 +224,14 @@
         console.log(products)
         for(var i=0;i<products.length;i++){
             console.log(products[i].id)
-            $('#listProduct').html($('#listProduct').html()+createProductObject(products[i].image,products[i].name,products[i].price,products[i].id));
+            $('#listProduct').html($('#listProduct').html()+createProductObject(products[i].image,products[i].name,products[i].price,products[i].id,products[i].count));
         }
         if(products.length==0){
             $('#listProduct').addClass('hiddenAddProduct');
             $('#formProduct').addClass('hiddenAddProduct');
         }
     }
-    function createProductObject(image,name,price,id){
+    function createProductObject(image,name,price,id,count){
         return `
             <div style="padding: 10px; background:rgb(235,235,235); display:flex;">
                             <div style="width: 140px;">
@@ -221,13 +253,13 @@
                                            type="range"
                                            min="0"
                                            max="1000"
-                                           value="1"
+                                           value="${count}"
                                            step="1" 
                                            class="form-control" 
                                            name="product_count" required
                                            placeholder="Type something" 
                                            style="padding:0px;width: 300px;accent-color: rgb(30,165,159); margin:0px 15px 0px 15px;"/>
-                                    <output id="list-item-output${id}" style="width:105px;margin-left: 10px; font-style: italic; margin-top: 3px;">1 sản phẩm</output>
+                                    <output id="list-item-output${id}" style="width:105px;margin-left: 10px; font-style: italic; margin-top: 3px;">${count} sản phẩm</output>
                                 </div>
                                 <div style="  position: absolute;top: 91px;">
                                     <i onclick="decreaseCount('list-item${id}','list-item-output${id}')" class="ion-arrow-left-b" style="color:rgb(30,165,159); width:10px;margin-top: 5px; margin-right: 10px; font-size: 26px;"></i>
