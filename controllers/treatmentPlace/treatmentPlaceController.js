@@ -7,6 +7,7 @@ const list = async (req, res) => {
     pt[i].address=JSON.parse(pt[i].address);
     var address = pt[i].address.detail+", "+pt[i].address.district+", "+pt[i].address.city;
     pt[i].address=address;
+    pt[i].count = await service.countPatientByTreatmentId(pt[i].id);
   }
   res.render("admin/treatmentPlace", {
     title: "Covid Manager",

@@ -21,7 +21,17 @@ const addPatient = async (req, res) => {
   const tp = await serviceTreatment_place.getListTreatmentPlace();
   const addressData = serviceAddress.getDataStringify();
   const obj = JSON.parse(addressData);
-
+  for(var i=0;i<tp.length;i++){
+    tp[i].count = await serviceTreatment_place.countPatientByTreatmentId(tp[i].id);
+    if(tp[i].count<tp[i].capacity){
+      tp[i].value = tp[i].id;
+    }
+    else{
+      tp[i].style = "color:rgb(255,127,39);"
+      tp[i].name = tp[i].name+" (đã đầy)"
+    }
+  }
+  console.log(tp)
   res.render("manager/addPatient", {
     nav: "nav",
     sidebar: "sidebar",

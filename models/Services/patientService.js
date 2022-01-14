@@ -14,30 +14,6 @@ const listPatient = () => {
     }]
    });
 };
-
-//add patient raw query
-// const addPatient = async (patient) => {
-//   try {
-//     await sq.sequelize.query(
-//       'INSERT INTO "Patient"(id, name, identity_card, birthdate, address, status, treatment_place_id) VALUES (' +
-//         99 +
-//         ", '" +
-//         patient.name +
-//         "', " +
-//         "null" +
-//         ", " +
-//         "null" +
-//         ",'" +
-//         patient.address +
-//         "'," +
-//         "null" +
-//         "," +
-//         "null" +
-//         ");",
-//       { type: QueryTypes.INSERT }
-//     );
-//   } catch (err) {}
-// };
 const addPatient = async (patient,address) => {
   try {
     await models.Patient.create({

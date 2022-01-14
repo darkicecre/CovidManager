@@ -6,11 +6,19 @@ const TreatmentPlace = require("../TreatmentPlace");
 const getListTreatmentPlace =  () => {
     return models.TreatmentPlace.findAll({raw: true});
 };
-// async function test() {
-//   const t = await models.TreatmentPlace.findAll({raw:true});
-//   console.log(t);
-//   return t;
-// }
+
+const countPatientByTreatmentId = async (id)=>{
+  try{
+     var a = await models.Patient.findAll({
+      where:{
+        treatment_place_id:id
+      }
+    })
+    return a.length;
+  }catch(err){
+    console.log(err);
+  }
+}
 const addTreatmentPlace = async (treatmentPlace,address) => {
   try {
     const t = await models.TreatmentPlace.create({
@@ -18,11 +26,6 @@ const addTreatmentPlace = async (treatmentPlace,address) => {
       name: treatmentPlace.name,
       capacity: treatmentPlace.capacity
     });
-    // const a = await models.TreatmentPlace.findAll({where:{id:1}});
-    // console.log(a);
-    // console.log("Hello");
-    // console.log(treatmentPlace);
-    
   
   } catch (err) {
     console.log(err);
@@ -40,34 +43,7 @@ const findById = async(treatmentPlace)=>{
     console.log(err);
   }
 }
-// Vehicle.findAll({
-//   attributes: [
-//      sequelize.fn('MAX', sequelize.col('id'))
-//   ],
-//   where: {
-//     { 'vsr_id': 342 }
-//   }
-// });
-// id:TreatmentPlace.max('id')
-// .success(function(){
-//    return await models.TreatmentPlace.
-// })
-// .error(function(err){
-//   console.log(err);
-// });
-// const findTheMaxId = async(treatmentPlace)=>{
-//   try{
-//     return await models.TreatmentPlace.findAll({
-//       where:{
-//         id:treatmentPlace.id
-//       }
-      
-//     })
-//   }catch(err){
-//     console.log(err);
-//   }
-// }
 
 
-  module.exports = { getListTreatmentPlace, addTreatmentPlace, findById};
+  module.exports = { getListTreatmentPlace, addTreatmentPlace, findById,countPatientByTreatmentId};
   

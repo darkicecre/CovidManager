@@ -19,9 +19,7 @@
                 <th class="text-center">TÊN ĐỊA ĐIỂM</th>
                 <th class="text-center">ĐỊA CHỈ</th>
                 <th class="text-center">SỨC CHỨA</th>
-                {{!-- <th class="text-center">SỐ LƯỢNG HIỆN TẠI</th> --}}
-                {{!-- </th class="text-center">GHI CHÚ THÊM</th> --}}
-                {{!-- <th></th> --}}
+                <th class="text-center">SỐ LƯỢNG HIỆN TẠI</th>
               </tr>
             </thead>
 
@@ -32,21 +30,7 @@
                   <td>{{name}}</td>
                   <td>{{address}}</td>
                   <td>{{capacity}}</td>
-                  {{!-- <td>{{note}}</td> --}}
-                  {{!-- <td style="display:flex; flex-direction: column;">
-                    <form action="/product/toUpdateProduct" method="post">
-                      <input type="text" name="id" value={{id}} style="display: none;">
-                      <button  style="margin-top: 30px; width:45px; height:36px;" type="submit">
-                        <i onclick="edit({{id}})"  class=" fa fa-edit" style="color: #c2b30c; font-size: 24px; text-align: center;"></i> 
-                      </button>
-                    </form>
-                    <form  action="/product/deleteProduct" method="post">
-                      <input type="text" name="id" value={{id}} style="display: none;">
-                      <button type="submit" style="margin-top: 30px;">
-                        <i class="mdi mdi-delete-forever" style="color: #ff2b2b; font-size: 30px; text-align: center; "></i>
-                      </button>
-                    </form>
-                  </td> --}}
+                  <td>{{count}}</td>
                 </tr>
               {{/each}}
             </tbody>
