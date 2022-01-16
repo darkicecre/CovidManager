@@ -33,8 +33,6 @@ const list = async (req, res) => {
     package.price=Intl.NumberFormat('vi-VN').format(package.price)+' đ'
   }))
   res.render('manager/package',{
-    nav: "nav",
-    sidebar: "sidebar",
     tag: "Package",
     package:pt
   })
@@ -45,8 +43,6 @@ const addPackage = async (req, res) => {
       element.price=Intl.NumberFormat('vi-VN').format(element.price)
     });
    res.render("manager/addPackage", {
-     nav: "nav",
-     sidebar: "sidebar",
      tag: "Add Package",
      product:pt,
 
