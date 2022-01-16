@@ -45,17 +45,16 @@ sq.sequelize
 
 //set routes for server
 app.use("/patient", patient);
-app.use("/product",product);
-app.use("/user",userAccount);
-app.use("/addUserAccount",userAccount);
-app.use("/package",package);
-app.use("/payment",payment)
+app.use("/product", product);
+app.use("/user", userAccount);
+app.use("/addUserAccount", userAccount);
+app.use("/package", package);
+app.use("/payment", payment);
 
 app.use("/", (req, res) => {
   res.render("manager/managerDashboard", {
-    nav: "nav",
-    sidebar: "sidebar",
     tag: "Patient",
+
   });
 });
 

@@ -61,10 +61,14 @@ const changeInfoPage =async (req, res) => {
 }
 const changeInfo = async(req, res) =>{
     const pt = req.body;
-    console.log(pt);
-    //update patient status
     
-    servicePatient.updatePatient(pt).then(res.redirect("/patient"));
+    //update patient status
+    servicePatient.update(pt);
+    servicePatient.updateSrcPatient(pt.id);
+
+    index = 0;
+    servicePatient.updateDesPatient(pt.id,index);
+    res.redirect("/patient");
 }
 
 const addContactPage = async (req, res) => {
@@ -83,19 +87,20 @@ const addContact = async (req, res) => {
   //check identity_card
   let account = req.body;
   let user = await servicePatient.findPatientByIdentity(account.CMND);
-  console.log(user);
+  
   if (user) {
     req.flash("identityMessage", "Identity card already exists!");
     return res.redirect("/patient/addContact");
   }
+  
   let person =await servicePatient.findPatientById(pt.id);
-
   pt.status ='F' + (parseInt(person.status[1]) + 1).toString();
-  console.log(pt.status);
+
   await servicePatient.addPatient(pt);
   let id_other_person = await servicePatient.findPatientByIdentity(pt.CMND);
 
-  await servicePatient.addContactPatient(pt.id,id_other_person.id).then(res.redirect("/patient/"+pt.id))
+  await servicePatient.addContactPatient(pt.id,id_other_person.id);
+  res.redirect("/patient/"+pt.id);
 }
 module.exports = {
   list,

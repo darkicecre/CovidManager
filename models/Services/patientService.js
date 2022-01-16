@@ -18,16 +18,17 @@ const listPatient = () => {
 //find patient by identity_card
 const findPatientByIdentity = (identity_card) => {
   return models.Patient.findOne({
-    where: {identity_card},
+    where: { identity_card },
     raw: true,
-  })
+  });
 }
 const findPatientById = (_id) =>{
-  return models.Patient.findOne({id: _id});
+  return models.Patient.findOne({where: {id: _id},raw: true});
 }
 
 const addPatient = async (patient) => {
   try {
+
     await models.Patient.create({
       name: patient.name,
       address: patient.address,
@@ -38,9 +39,6 @@ const addPatient = async (patient) => {
     });
   } catch (err) {
     
-    if(err){
-      console.log(err.parent.code);
-    }
   }
 };
 const  addContactPatient = async (id_person,id_other_person) => {
@@ -79,11 +77,83 @@ const patientDetail = async  (_id) => {
   } catch (err) {console.log(err);}
   return patient;
 }
-const  updatePatient =async (pt)=>{
+const  updateSrcPatient = async (id)=>{
+  const checkPatient = await models.Patient.findOne({
+    where: { id},
+    raw: true,
+  });
+ 
+  if(checkPatient.status === 'F0'){
+    return;
+  }
   try {
     await models.Patient.update(
       {
-        status: pt.status,
+        status: "F0",
+      },
+      {
+        where: {
+          id,
+        },
+      }
+    );
+  } catch (err) {
+    console.log(err);
+  }
+
+  const contact = await models.ContactHistory.findAll({where:{
+    id_other_person: id
+  }, raw: true})
+
+  for (let tmp of contact) {
+    await models.ContactHistory.destroy({where:{ id_person:tmp.id_person}});
+
+    updateSrcPatient(tmp.id_person);
+  }
+}
+const updateDesPatient = async (id, index) => {
+  if (id === null) {
+    return;
+  }
+  const checkPatient = await models.Patient.findOne({
+    where: { id },
+    raw: true,
+  });
+
+  
+  index += 1;
+  const stt = "F" + index.toString();
+  try {
+    await models.Patient.update(
+      {
+        status: stt,
+      },
+      {
+        where: {
+          id,
+        },
+      }
+    );
+  } catch (err) {
+    
+  }
+
+  const contact = await models.ContactHistory.findAll({
+    where: {
+      id_person: id,
+    },
+    raw: true,
+  });
+  for (let tmp of contact) {
+    console.log(tmp);
+    updateDesPatient(tmp.id_other_person,index);
+  }
+};
+const update = async (pt) =>{
+  try {
+    await models.Patient.update(
+      {
+        status: "F0",
         treatment_place_id: pt.treatment_place,
       },
       {
@@ -101,8 +171,10 @@ module.exports = {
   addPatient,
   addPatient,
   patientDetail,
-  updatePatient,
+  updateDesPatient,
+  updateSrcPatient,
   addContactPatient,
   findPatientByIdentity,
-  findPatientById
+  findPatientById,
+  update
 };
