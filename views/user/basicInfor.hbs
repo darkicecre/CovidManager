@@ -1,0 +1,49 @@
+<div class="container">
+    <div class="div" style="display: flex; flex-direction: row; justify-content:flex-end">
+        <div style="padding: 10px">
+            <a href="/user/basicInfor/edit/{{id}}" style="color:white;">
+                <button type="button"class="btn btn-primary waves-effect waves-light" style="margin-bottom: 10px;">Sửa Thông Tin</button>
+            </a>
+        </div>
+</div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h2 class="panel-title">Thông Tin Uer</h2>
+        </div>
+        <div class="panel-body">
+        <h4>
+
+            <strong>User Name:</strong>{{user_name}}
+        </h4>
+        <h4>
+
+            <strong>Password:</strong>{{password}}
+        </h4>
+        <h4>
+
+            <strong>Tên:</strong>{{name}}
+        </h4>
+        <h4>
+
+            <strong>CMND</strong>{{identity_card}}
+        </h4>
+
+        <h4>
+
+            <strong>Trạng Thái:</strong>{{active}}
+        </h4>
+        <h4>
+
+            <strong>Is Alert:</strong>{{is_alert}}
+        </h4>
+
+        </div>
+
+    </div>
+    <div class="div" style="display: flex; flex-direction: row; justify-content:flex-start">
+        <div style="padding: 10px">
+            <a href="/user" style="color:white;">
+                <button type="button"class="btn btn-primary waves-effect waves-light" style="margin-bottom: 10px;">Back</button>
+            </a>
+        </div>
+    </div>
