@@ -1,35 +1,13 @@
 <div class="container center-block" style="width:500px">
-        
-        {{#if message}}
-            <div class="alert alert-danger">
-               <div>{{message}}</div>
-            </div>
-        {{/if}}
 
             <div class="panel panel-primary">
                 <div class="panel-body">
-                    <form  action="/patient/addPatient" method="post">
+                    <form  action="/treatmentPlace/addTreatmentPlace" method="post">
                         <div class="form-group">
-                                <label>Họ tên</label>
+                                <label>Tên địa điểm</label>
                                 <input type="text" class="form-control" name="name" required placeholder="Type something"/>
                         </div>
 
-                        <div class="form-group">
-                            <label>CMND</label>
-                            <div>
-                            <input data-parsley-type="number" type="text" name="CMND" class="form-control" required placeholder="Enter only numbers"/>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label>Ngày sinh</label>
-                            <div>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="birthday" placeholder="mm/dd/yyyy" id="datepicker-autoclose">
-                                    <span class="input-group-addon bg-custom b-0"><i class="mdi mdi-calendar text-white"></i></span>
-                                </div>
-                            </div>
-                        </div>
                         <div class="form-group">
                                 <label>Địa chỉ - Thành phố/Tỉnh :</label>
                                 <select id="city" name="address_city" class="form-control" onchange="addressChange(`{{addressStringify}}`)" required>
@@ -52,15 +30,13 @@
                                     <input id="detail" type="text" name="address_detail" class="form-control" required onchange="detailChange()">
                                 </div>
                         </div>
-                        <input type="text" name="status" value="" style="display: none;">
+
                         <div class="form-group">
-                            <label>Nơi điều trị:</label>
-                            <select name="treatment_place" class="form-control" required>
-                                {{#each treatment_place}}
-                                <option value="{{value}}" style="{{style}}">{{name}}</option>
-                                {{/each}}
-                            </select>
+                            <label>Sức chứa</label>
+                            <div>
+                            <input data-parsley-type="number" type="text" name="capacity" class="form-control" required placeholder="Enter only numbers"/>
                         </div>
+                        <br>
                         <div class="form-group">
                             <div>
                                 <button type="submit" class="btn btn-primary waves-effect waves-light">
@@ -75,6 +51,7 @@
             </div>
         </div>
 </div>
+
 <style>
     .hidden{
         display:none;
@@ -105,7 +82,5 @@
     function districtChange(){
         document.getElementById("div_detail").classList.remove("hidden");
     }
-    function styleOption(){
-        return `color:red;`
-    }
+    
 </script>

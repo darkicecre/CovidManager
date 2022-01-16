@@ -1,0 +1,56 @@
+<div class="container">
+  <div style="display:flex; justify-content:flex-end">
+    <a href="/treatmentPlace/addTreatmentPlace" style="color:white;"><button
+        type="button"
+        class="btn btn-primary waves-effect waves-light"
+        style="margin-bottom: 10px;"
+      >Thêm địa điểm</button></a>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-primary">
+        <div class="panel-body">
+
+          <table id="datatable-fixed-header" class="table table-striped table-bordered" >
+            <thead>
+              <tr>
+                <th class="text-center">ID</th>
+                <th class="text-center">TÊN ĐỊA ĐIỂM</th>
+                <th class="text-center">ĐỊA CHỈ</th>
+                <th class="text-center">SỨC CHỨA</th>
+                <th class="text-center">SỐ LƯỢNG HIỆN TẠI</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {{#each treatmentPlace}}
+                <tr>
+                  <td> {{id}}</td>
+                  <td>{{name}}</td>
+                  <td>{{address}}</td>
+                  <td>{{capacity}}</td>
+                  <td>{{count}}</td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{!-- <style>
+    .imageItem{
+        width: 150px;
+        height: 150px;
+        margin: auto;
+        display: flex;
+    }
+    .image{
+        height: auto; 
+        width: auto; 
+        max-width: 140px; 
+        max-height: 140px;
+    }
+</style> --}}
