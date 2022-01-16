@@ -61,13 +61,10 @@ const changeInfoPage =async (req, res) => {
 }
 const changeInfo = async(req, res) =>{
     const pt = req.body;
+    console.log(pt)
     
-    //update patient status
-    servicePatient.update(pt);
-    servicePatient.updateSrcPatient(pt.id);
+    servicePatient.updateSrcPatient(pt.id,pt.status);
 
-    index = 0;
-    servicePatient.updateDesPatient(pt.id,index);
     res.redirect("/patient");
 }
 
@@ -95,7 +92,6 @@ const addContact = async (req, res) => {
   
   let person =await servicePatient.findPatientById(pt.id);
   pt.status ='F' + (parseInt(person.status[1]) + 1).toString();
-
   await servicePatient.addPatient(pt);
   let id_other_person = await servicePatient.findPatientByIdentity(pt.CMND);
 

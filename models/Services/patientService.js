@@ -77,104 +77,52 @@ const patientDetail = async  (_id) => {
   } catch (err) {console.log(err);}
   return patient;
 }
-const  updateSrcPatient = async (id)=>{
-  const checkPatient = await models.Patient.findOne({
-    where: { id},
-    raw: true,
-  });
- 
-  if(checkPatient.status === 'F0'){
-    return;
-  }
+const updateStatus=async(_id,st)=>{
   try {
     await models.Patient.update(
       {
-        status: "F0",
+        status: st,
       },
       {
         where: {
-          id,
+          id: _id,
         },
       }
     );
   } catch (err) {
     console.log(err);
   }
-
-  const contact = await models.ContactHistory.findAll({where:{
-    id_other_person: id
-  }, raw: true})
-
-  for (let tmp of contact) {
-    await models.ContactHistory.destroy({where:{ id_person:tmp.id_person}});
-
-    updateSrcPatient(tmp.id_person);
-  }
 }
-const updateDesPatient = async (id, index) => {
-  if (id === null) {
+const  updateSrcPatient = async (id,type)=>{
+  if(type==="F4"){
     return;
   }
-  const checkPatient = await models.Patient.findOne({
-    where: { id },
-    raw: true,
-  });
-
+  const person = await models.Patient.findOne({where:{
+    id:id
+  },raw:true})
+  if(parseInt(person.status[1])>parseInt(type[1])){
+    updateStatus(id,type);
+    const contact = await models.ContactHistory.findOne({where:{
+      id_other_person:id
+    },raw:true})
+    updateSrcPatient(contact.id_person,'F'+(parseInt(type[1])+1).toString())
+    const contactOther = await models.ContactHistory.findAll({where:{
+      id_person:id
+    },raw:true})
+    for(var i=0;i<contactOther.length;i++){
+      updateSrcPatient(contactOther[i].id_other_person,'F'+(parseInt(type[1])+1).toString())
+    }
+  }
   
-  index += 1;
-  const stt = "F" + index.toString();
-  try {
-    await models.Patient.update(
-      {
-        status: stt,
-      },
-      {
-        where: {
-          id,
-        },
-      }
-    );
-  } catch (err) {
-    
-  }
-
-  const contact = await models.ContactHistory.findAll({
-    where: {
-      id_person: id,
-    },
-    raw: true,
-  });
-  for (let tmp of contact) {
-    console.log(tmp);
-    updateDesPatient(tmp.id_other_person,index);
-  }
-};
-const update = async (pt) =>{
-  try {
-    await models.Patient.update(
-      {
-        status: "F0",
-        treatment_place_id: pt.treatment_place,
-      },
-      {
-        where: {
-          id: pt.id,
-        },
-      }
-    );
-  } catch (err) {
-    console.log(err);
-  }
 }
+
 module.exports = {
   listPatient,
   addPatient,
   addPatient,
   patientDetail,
-  updateDesPatient,
   updateSrcPatient,
   addContactPatient,
   findPatientByIdentity,
-  findPatientById,
-  update
+  findPatientById
 };
