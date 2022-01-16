@@ -32,8 +32,21 @@
     </head>
     <body class="fixed-left">
         <div id="wrapper">
-        {{> nav}}
-        {{> sidebar}}
+        {{#if nav includeZero=true}}
+        {{else}}
+                {{> nav}}
+
+        {{/if}}
+
+        {{#if sidebar includeZero=true}}
+        {{else}}
+            {{> sidebar}}
+
+        {{/if}}
+        {{#ifEquals sidebar "admin"}}
+            {{> admin_sidebar}}
+        {{/ifEquals}}
+
         <div class="content-page">
                 <!-- Start content -->
                 <div class="content">
