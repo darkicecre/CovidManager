@@ -20,6 +20,7 @@ app.use(session({
 const patient = require("./routes/patients");
 const product = require("./routes/products");
 const package = require("./routes/package");
+const payment = require("./routes/payment");
 const treatmentPlace = require("./routes/treatmentPlace");
 const userAccount = require("./routes/account");
 const login = require("./routes/login");
@@ -43,6 +44,7 @@ app.use(express.static(path.join(__dirname, "public")));
 const { QueryTypes } = require("sequelize");
 const { models } = require("./models");
 const sq = require("./models/index");
+const { use } = require("passport");
 sq.sequelize
     .authenticate()
     .then(() => console.log("Database connected"))
@@ -53,6 +55,7 @@ app.use("/patient", patient);
 app.use("/product", product);
 app.use("/account", userAccount);
 app.use("/package", package);
+app.use("/payment",payment);
 app.use("/treatmentPlace", treatmentPlace);
 app.use("/login", login);
 app.use("/user", user);

@@ -1,4 +1,10 @@
 <div class="container center-block" style="width:500px">
+        
+        {{#if message}}
+            <div class="alert alert-danger">
+               <div>{{message}}</div>
+            </div>
+        {{/if}}
 
             <div class="panel panel-primary">
                 <div class="panel-body">
@@ -46,13 +52,7 @@
                                     <input id="detail" type="text" name="address_detail" class="form-control" required onchange="detailChange()">
                                 </div>
                         </div>
-                        <div class="form-group">
-                                <label>Trạng thái:</label>
-                                <div>
-                                    <input type="text" class="form-control" required 
-                                            data-parsley-maxlength="6" name="status" placeholder="Max 6 chars."/>
-                                </div>
-                        </div>
+                        <input type="text" name="status" value="" style="display: none;">
                         <div class="form-group">
                             <label>Nơi điều trị:</label>
                             <select name="treatment_place" class="form-control" required>

@@ -103,5 +103,17 @@ const updateAccount = (req, res) => {
     console.log(acc);
     //service.updateAccount(pt).then(res.redirect("/user"));
 }
+const addUserAccount = async (req,res)=>{
+    let account = req.body;
+    let user = await service.findAccount(account)
+    console.log(user);
+    if(user){
+        req.flash("accountMessage", "Account already exists!");
+        return  res.redirect('/user/addUserAccount');
+    }
+    service.addUserAccount(account);
+    res.redirect('/dashboard');   
+}
 
-module.exports = { list, addAccount, add, accountDetail, updateAccount, detailUser, editAccount, edit, deleteAccount };
+
+module.exports = {addUserAccount,list, addAccount, add, accountDetail, updateAccount, detailUser, editAccount, edit, deleteAccount };

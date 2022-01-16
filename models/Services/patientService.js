@@ -1,6 +1,7 @@
 const { models } = require("..");
 const { QueryTypes } = require("sequelize");
-
+const sequelize = require("sequelize");
+const Op = sequelize.Op;
 
 
 // get all patients
@@ -14,8 +15,20 @@ const listPatient = () => {
     }]
    });
 };
+//find patient by identity_card
+const findPatientByIdentity = (identity_card) => {
+  return models.Patient.findOne({
+    where: { identity_card },
+    raw: true,
+  });
+}
+const findPatientById = (_id) =>{
+  return models.Patient.findOne({where: {id: _id},raw: true});
+}
+
 const addPatient = async (patient,address) => {
   try {
+
     await models.Patient.create({
       name: patient.name,
       address: address,
@@ -26,27 +39,53 @@ const addPatient = async (patient,address) => {
     });
   } catch (err) {
     
-    if(err){
-      console.log(err.parent.code);
-    }
   }
 };
-
+const  addContactPatient = async (id_person,id_other_person) => {
+  try {
+    await models.ContactHistory.create({
+      id_person,
+      id_other_person
+    });
+  } catch (err) {
+    if (err) {
+      console.log(err);
+    }
+  }
+}
 //get detail patient
-const patientDetail =  (_id) => {
-  return models.Patient.findByPk( _id,{raw: true});
-};
+const patientDetail = async  (_id) => {
+  let patient;
+  try{
+    patient = await models.ContactHistory.findAll({
+      include: [
+        {
+          model: models.Patient,
+          as:'id_other_person_Patient',
+          attribute: ["name", "identity_card", "address", "status","id"],
+        },
+      ],
+      where: {
+        [Op.and]: [
+          {
+            id_person: _id
+          },
 
-const  updatePatient =async (pt)=>{
+        ],
+      },raw:true,
+    });
+  } catch (err) {console.log(err);}
+  return patient;
+}
+const updateStatus=async(_id,st)=>{
   try {
     await models.Patient.update(
       {
-        status: pt.status,
-        treatment_place_id: pt.treatment_place,
+        status: st,
       },
       {
         where: {
-          id: pt.id,
+          id: _id,
         },
       }
     );
@@ -54,4 +93,36 @@ const  updatePatient =async (pt)=>{
     console.log(err);
   }
 }
-module.exports = { listPatient, addPatient, addPatient, patientDetail,updatePatient };
+const  updateSrcPatient = async (id,type)=>{
+  if(type==="F4"){
+    return;
+  }
+  const person = await models.Patient.findOne({where:{
+    id:id
+  },raw:true})
+  if(parseInt(person.status[1])>parseInt(type[1])){
+    updateStatus(id,type);
+    const contact = await models.ContactHistory.findOne({where:{
+      id_other_person:id
+    },raw:true})
+    updateSrcPatient(contact.id_person,'F'+(parseInt(type[1])+1).toString())
+    const contactOther = await models.ContactHistory.findAll({where:{
+      id_person:id
+    },raw:true})
+    for(var i=0;i<contactOther.length;i++){
+      updateSrcPatient(contactOther[i].id_other_person,'F'+(parseInt(type[1])+1).toString())
+    }
+  }
+  
+}
+
+module.exports = {
+  listPatient,
+  addPatient,
+  addPatient,
+  patientDetail,
+  updateSrcPatient,
+  addContactPatient,
+  findPatientByIdentity,
+  findPatientById
+};
