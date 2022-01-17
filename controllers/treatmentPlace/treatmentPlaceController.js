@@ -5,7 +5,7 @@ const list = async (req, res) => {
   const pt = await service.getListTreatmentPlace();
   for(var i=0;i<pt.length;i++){
     pt[i].address=JSON.parse(pt[i].address);
-    var address = pt[i].address.detail+", "+pt[i].address.district+", "+pt[i].address.city;
+    var address = pt[i].address.detail+", "+pt[i].address.ward+", "+pt[i].address.district+", "+pt[i].address.city;
     pt[i].address=address;
     pt[i].count = await service.countPatientByTreatmentId(pt[i].id);
   }
@@ -19,8 +19,6 @@ const addTreatmentPlace = (req, res) => {
   const addressData = serviceAddress.getDataStringify();
   const obj = JSON.parse(addressData);
    res.render("admin/addTreatmentPlace", {
-     nav: "nav",
-     sidebar: "sidebar",
      tag: "Add Treatment Place",
      address: obj,
      addressStringify:addressData,
@@ -28,8 +26,8 @@ const addTreatmentPlace = (req, res) => {
 };
 const add = (req, res) => {
    const pt = req.body;
-   var address = '{"city":"'+pt.city+'","district":"'+pt.address_district+'","detail":"'+pt.address_detail+'"}';
-  
+   var address = '{"city":"'+pt.city+'","district":"'+pt.address_district+'","ward":"'+pt.address_ward+'","detail":"'+pt.address_detail+'"}';
+   
    console.log(pt);
    service.addTreatmentPlace(pt,address)
      .then(res.redirect("/treatmentPlace"))
@@ -37,8 +35,6 @@ const add = (req, res) => {
 
 const treatmentPlaceDetail = (req,res)=>{
   res.render("admin/treatmentPlaceDetail",{
-    nax:"nav",
-    sidebar:"sidebar",
     tag:"Treatment Place Detail"
   })
 }

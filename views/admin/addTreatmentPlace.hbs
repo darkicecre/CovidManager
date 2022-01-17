@@ -1,3 +1,4 @@
+
 <div class="container center-block" style="width:500px">
 
             <div class="panel panel-primary">
@@ -10,27 +11,36 @@
 
                         <div class="form-group">
                                 <label>Địa chỉ - Thành phố/Tỉnh :</label>
-                                <select id="city" name="address_city" class="form-control" onchange="addressChange(`{{addressStringify}}`)" required>
+                                <select id="city" name="address_city" class="form-control" onchange="cityChange(`{{addressStringify}}`)" required>
                                     <option value="" selected disabled hidden>Choose here</option>
                                     {{#each address}}
                                         <option value="{{id}}">{{name}}</option>
                                     {{/each}}
                                 </select>
-                                <input type="text" name="city" id="mainCity" class="hidden">
+                                <input type="text" id="addressCity" name="city" style="display:none">
                         </div>
+                        
                         <div class="form-group hidden" id="div_district">
                                 <label >Địa chỉ - Quận/Huyện :</label>
                                 <select id="addressDistrict" name="address_district" class="form-control" onchange="districtChange()" required>
                                     <option value="" selected disabled hidden>Choose here</option>
                                 </select>
                         </div>
+
+                        <div class="form-group hidden" id="div_ward">
+                                <label >Địa chỉ - Phường/Xã :</label>
+                                <select id="addressWard" name="address_ward" class="form-control" onchange="wardChange()" required>
+                                    <option value="" selected disabled hidden>Choose here</option>
+                                </select>
+                        </div>
+
                         <div class="form-group hidden" id="div_detail">
                                 <label >Địa chỉ - Chi tiết số nhà/đường :</label>
                                 <div >
-                                    <input id="detail" type="text" name="address_detail" class="form-control" required onchange="detailChange()">
+                                    <input id="detail" type="text" name="address_detail" class="form-control" required >
                                 </div>
                         </div>
-
+                        
                         <div class="form-group">
                             <label>Sức chứa</label>
                             <div>
@@ -57,30 +67,59 @@
         display:none;
     }
 </style>
+
 <script>
     var check =false;
     var object=[];
-    function addressChange(address){
+    var districtOfCity=[];
+    var wardOfDistrict=[];
+    function cityChange(address){
         if(check==false){
             check=true;
             object=JSON.parse(address);
         }
-        var d = document.getElementById("city").value;
-        document.getElementById("mainCity").value = object[d-1].name;
+        var city_id = document.getElementById("city").value;
         document.getElementById("div_district").classList.remove("hidden");
         var data = document.getElementById("addressDistrict");
         data.innerHTML='<option value="" selected disabled hidden>Choose here</option>'
         document.getElementById("div_detail").classList.add("hidden");
-
-        for(var i=0;i<object[d-1].district.length;i++){
+        document.getElementById("div_ward").classList.add("hidden");
+        for(var i = 0;i<object.length;i++){
+            if(object[i].id===city_id){
+                districtOfCity = object[i].district
+                document.getElementById("addressCity").value=object[i].name
+            }
+        }
+        for(var i=0;i<districtOfCity.length;i++){
             const para = document.createElement("option");
-            para.text = object[d-1].district[i].name;
-            para.value = object[d-1].district[i].name;
+            para.text = districtOfCity[i].name;
+            para.value = districtOfCity[i].name;
             data.appendChild(para);
         }
     }
+    
     function districtChange(){
+        var district_name = document.getElementById("addressDistrict").value;
+        document.getElementById("div_ward").classList.remove("hidden");
+        var data = document.getElementById("addressWard");
+        data.innerHTML='<option value="" selected disabled hidden>Choose here</option>'
+        document.getElementById("div_detail").classList.add("hidden");
+
+        for(var i = 0;i<districtOfCity.length;i++){
+            if(districtOfCity[i].name===district_name){
+                wardOfDistrict=districtOfCity[i].ward
+            }
+        }
+        for(var i=0;i<wardOfDistrict.length;i++){
+            const para = document.createElement("option");
+            para.text = wardOfDistrict[i].name;
+            para.value = wardOfDistrict[i].name;
+            data.appendChild(para);
+        }
+    }
+
+    function wardChange(){
+        var ward_name = document.getElementById("addressWard").value;
         document.getElementById("div_detail").classList.remove("hidden");
     }
-    
 </script>

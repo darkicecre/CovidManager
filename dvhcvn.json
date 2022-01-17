@@ -1,15 +1,3 @@
-const { models } = require("..");
-const { QueryTypes } = require("sequelize");
-
-
-const getDataStringify = ()=>{
-    return data;
-}
-
-module.exports = { getDataStringify };
-
-var data = `
-
 [
     {
         "id": "01",
@@ -22,7 +10,7 @@ var data = `
                 "type": "Quận",
                 "ward": [
                     {
-                        "id": "00001",
+                        "id": "001",
                         "name": "Phường Phúc Xá",
                         "type": "Phường"
                     },
@@ -58378,5 +58366,3 @@ var data = `
         ]
     }
 ]
-
-`

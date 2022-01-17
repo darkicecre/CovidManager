@@ -9,7 +9,7 @@ const list = async (req, res) => {
   const pt = await servicePatient.listPatient();
   for(var i=0;i<pt.length;i++){
     var address = JSON.parse(pt[i].address);
-    pt[i].address = address.detail+', '+address.district+', '+address.city;
+    pt[i].address = address.detail+', '+address.ward+', '+address.district+', '+address.city;
   }
   res.render("manager/patient", {
     title: "Covid Manager",
@@ -43,10 +43,12 @@ const addPatient = async (req, res) => {
 };
 const PatientDetail = async (req, res) => {
   try{
-  const patient = await servicePatient.patientDetail(req.params.id);
-  const detailPatient = await servicePatient.patientDetail(req.params.id);
-  var address = JSON.parse(detailPatient.address);
-  detailPatient.address = address.detail+', '+address.district+', '+address.city;
+    const patient = await servicePatient.patientDetail(req.params.id);
+   // const detailPatient = await servicePatient.patientDetail(req.params.id);
+   for(var i=0;i<patient.length;i++){
+    var address = JSON.parse(patient[i]['id_other_person_Patient.address']);
+    patient[i]['id_other_person_Patient.address']=address.detail+', '+address.ward+', '+address.district+', '+address.city;
+   }
   res.render("manager/patientDetail", {
     title: "Covid Manager",
     tag: "Patient Detail",
@@ -64,7 +66,7 @@ const add = async (req, res) => {
     req.flash("identityMes","Identity card already exists!");
     return res.redirect("/patient/addPatient");
   }
-  var address = '{"city":"'+pt.city+'","district":"'+pt.address_district+'","detail":"'+pt.address_detail+'"}';
+  var address = '{"city":"'+pt.city+'","ward":"'+pt.address_ward+'","district":"'+pt.address_district+'","detail":"'+pt.address_detail+'"}';
   console.log(address);
   
   servicePatient.addPatient(pt,address)
@@ -90,20 +92,24 @@ const changeInfo = async(req, res) =>{
 
 const addContactPage = async (req, res) => {
   const tp = await serviceTreatment_place.getListTreatmentPlace();
+  const addressData = serviceAddress.getDataStringify();
+  const obj = JSON.parse(addressData);
   
   res.render("manager/addContactPatient", {
     message: req.flash("identityMessage"),
     title: "Covid Manager",
     tag: "Add Patient",
     treatment_place: tp,
+    address: obj,
+    addressStringify:addressData,
     id: req.query.id,
   });
 }
 const addContact = async (req, res) => {
   let pt = req.body;
+  console.log(pt)
   //check identity_card
-  let account = req.body;
-  let user = await servicePatient.findPatientByIdentity(account.CMND);
+  let user = await servicePatient.findPatientByIdentity(pt.CMND);
   
   if (user) {
     req.flash("identityMessage", "Identity card already exists!");
@@ -112,10 +118,12 @@ const addContact = async (req, res) => {
   
   let person =await servicePatient.findPatientById(pt.id);
   pt.status ='F' + (parseInt(person.status[1]) + 1).toString();
-  await servicePatient.addPatient(pt);
+  var address = '{"city":"'+pt.city+'","ward":"'+pt.address_ward+'","district":"'+pt.address_district+'","detail":"'+pt.address_detail+'"}';
+  console.log(pt)
+  await servicePatient.addPatient(pt,address);
   let id_other_person = await servicePatient.findPatientByIdentity(pt.CMND);
 
-  await servicePatient.addContactPatient(pt.id,id_other_person.id);
+  await servicePatient.addContactPatient(pt.id,id_other_person.id)
   res.redirect("/patient/"+pt.id);
 }
 module.exports = {
