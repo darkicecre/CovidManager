@@ -10,6 +10,7 @@ const list = async (req, res) => {
     pt[i].count = await service.countPatientByTreatmentId(pt[i].id);
   }
   res.render("admin/treatmentPlace", {
+    sidebar:"admin",
     title: "Covid Manager",
     tag: "TreatmentPlace",
     treatmentPlace: pt,
