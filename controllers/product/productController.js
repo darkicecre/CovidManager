@@ -13,8 +13,6 @@ const list = async (req, res) => {
 };
 const addProduct = (req, res) => {
    res.render("manager/addProduct", {
-     nav: "nav",
-     sidebar: "sidebar",
      tag: "Add Product",
    });
 };
@@ -22,8 +20,6 @@ const toUpdateProduct = async (req,res)=>{
   const pt = req.body;
   const obj = await service.findById(pt);
   res.render("manager/updateProduct",{
-    nav:"nav",
-    sidebar: "sidebar",
     tag: "Update Product",
     id:obj[0].id,
     name:obj[0].name,
@@ -48,8 +44,6 @@ const deletePro=(req,res)=>{
 
 const productDetail = (req,res)=>{
   res.render("manager/productDetail",{
-    nax:"nav",
-    sidebar:"sidebar",
     tag:"Product Detail"
   })
 }

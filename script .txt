@@ -153,23 +153,23 @@ CREATE TABLE IF NOT EXISTS public."PaymentHistory"
 
 INSERT INTO public."TreatmentPlace"(
 	id, name, address, capacity)
-	VALUES (1, 'Bệnh viện dã chiến số 1', '{"city":"Thành phố Hồ Chí Minh","district":"Quận 9","detail":"Số 10 hẻm 2 đường Duy Tân"}', 20);
+	VALUES (1, 'Bệnh viện dã chiến số 1', '{"city":"Thành phố Hồ Chí Minh","district":"Quận 1","ward":"Phường Cầu Ông Lão","detail":"Số 10 hẻm 2 đường Duy Tân"}', 20);
 	
 	INSERT INTO public."TreatmentPlace"(
 	id, name, address, capacity)
-	VALUES (2, 'Bệnh viện dã chiến số 2', '{"city":"Thành phố Hồ Chí Minh","district":"Quận 2","detail":"Khách sạn 5.5 sao"}', 5);
+	VALUES (2, 'Bệnh viện dã chiến số 2', '{"city":"Thành phố Hồ Chí Minh","district":"Quận 4","ward":"Phường 06","detail":"Khách sạn 5.5 sao"}', 5);
 	
 	INSERT INTO public."TreatmentPlace"(
 	id, name, address, capacity)
-	VALUES (3, 'Bệnh viện dã chiến số 3', '{"city":"Thành phố Hồ Chí Minh","district":"Quận 2","detail":"Trường đại học Hutech"}', 10);
+	VALUES (3, 'Bệnh viện dã chiến số 3', '{"city":"Thành phố Hồ Chí Minh","district":"Quận 4","ward":"Phường 08","detail":"Trường đại học Hutech"}', 10);
 	
 	INSERT INTO public."TreatmentPlace"(
 	id, name, address, capacity)
-	VALUES (4, 'Bệnh viện dã chiến số 4', '{"city":"Thành phố Hồ Chí Minh","district":"Quận 2","detail":"Chung cư Diamond Riverside"}', 50);
+	VALUES (4, 'Bệnh viện dã chiến số 4', '{"city":"Thành phố Hồ Chí Minh","district":"Quận 4","ward":"Phường 10","detail":"Chung cư Diamond Riverside"}', 50);
 	
 	INSERT INTO public."TreatmentPlace"(
 	id, name, address, capacity)
-	VALUES (5, 'Bệnh viện dã chiến số 5', '{"city":"Thành phố Hồ Chí Minh","district":"Quận 9","detail":"155 Xa lộ Hà Nội"}', 80);
+	VALUES (5, 'Bệnh viện dã chiến số 5', '{"city":"Thành phố Hồ Chí Minh","district":"Quận 1","ward":"Phường Cầu Kho","detail":"155 Xa lộ Hà Nội"}', 80);
     
 INSERT INTO public."UserAccount"(
 	id, user_name, password, name, identity_card, role, active, is_alert)

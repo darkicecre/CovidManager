@@ -27,10 +27,10 @@ const list = async (req, res) => {
     package.price = 0;
     await Promise.all(package.list_product.map(async (product)=>{
       const item = await serviceProduct.findById(product);
-      console.log(item)
       package.price = Number(package.price)+Number(product.count)*Number(item[0].dataValues.price);
     }))
     package.price=Intl.NumberFormat('vi-VN').format(package.price)+' đ'
+    package.link="/package/detailPackage/"+package.id
   }))
   res.render('manager/package',{
     tag: "Package",
@@ -106,5 +106,32 @@ const toUpdatePackage = async (req,res)=>{
   })
   
 }
+const packageDetail = async (req, res) => {
+  try{
+    console.log(req.params.id)
+  const package = await service.findById2(req.params.id);
+  const val = package[0].dataValues
+  val.list_product = eval(val.list_product)
+  val.products =[]
+  for(var i=0;i<val.list_product.length;i++){
+    const product = await serviceProduct.findById(val.list_product[i]);
+    product[0].dataValues.count = val.list_product[i].count
+    val.products.push(product[0].dataValues)
+  }
+  console.log(val)
+  res.render("manager/packageDetail", {
+    title: "Covid Manager",
+    tag: "Package Detail",
+    id: req.params.id,
+    name:val.name,
+    price:val.price,
+    limit_day:val.limit_count_package_day,
+    limit_week:val.limit_count_package_week,
+    limit_month:val.limit_count_package_month,
+    products: val.products
 
-module.exports = { list, addPackage,add,deletePackage,toUpdatePackage,updatePackage};
+  });
+} catch(err) {  }
+};
+
+module.exports = { list, addPackage,add,deletePackage,toUpdatePackage,updatePackage,packageDetail};

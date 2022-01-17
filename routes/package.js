@@ -10,4 +10,5 @@ router.post("/addPackage",controller.add);
 router.post("/deletePackage",controller.deletePackage);
 router.post("/updatePackage",controller.toUpdatePackage);
 router.post("/update",controller.updatePackage);
+router.get("/detailPackage/:id",controller.packageDetail);
 module.exports = router;
