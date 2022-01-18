@@ -25,7 +25,7 @@ const treatmentPlace = require("./routes/treatmentPlace");
 const userAccount = require("./routes/account");
 const login = require("./routes/login");
 const user = require("./routes/user");
-const manageUser = require("./routes/manageUser");
+
 
 hbs.registerHelper('ifEquals', function(arg1, arg2, options) {
     return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
@@ -62,10 +62,11 @@ app.use("/treatmentPlace", treatmentPlace);
 app.use("/login", login);
 app.use("/user", user);
 
-app.use("/manageUser", manageUser);
 
 app.use("/", (req, res) => {
-    console.log(req.session.user);
+    if(!req.session.user){
+        res.redirect('/login');
+    }
     if(req.session.user.admin){
     res.render("manager/managerDashboard", {
         tag: "Dashboard",

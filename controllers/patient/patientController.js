@@ -12,9 +12,10 @@ const list = async (req, res) => {
     pt[i].address = address.detail+', '+address.ward+', '+address.district+', '+address.city;
   }
   res.render("manager/patient", {
+    sidebar: "manager",
     title: "Covid Manager",
     tag: "Covid Patients",
-    patient: pt,    
+    patient: pt,
   });
 };
 const addPatient = async (req, res) => {
@@ -34,6 +35,7 @@ const addPatient = async (req, res) => {
   console.log(tp)
   res.render("manager/addPatient", {
     title: "Covid Manager",
+    sidebar: "manager",
     tag: "Add Patient",
     address: obj,
     addressStringify:addressData,
@@ -51,6 +53,7 @@ const PatientDetail = async (req, res) => {
    }
   res.render("manager/patientDetail", {
     title: "Covid Manager",
+    sidebar: "manager",
     tag: "Patient Detail",
     id: req.params.id,
     patient: patient,
@@ -76,10 +79,11 @@ const add = async (req, res) => {
 const changeInfoPage =async (req, res) => {
   const tp = await serviceTreatment_place.getListTreatmentPlace();
 
-  res.render('manager/updatePatient',{
-  treatment_place: tp,
-  id: req.query.id
-  })
+  res.render("manager/updatePatient", {
+    sidebar: "manager",
+    treatment_place: tp,
+    id: req.query.id,
+  });
 }
 const changeInfo = async(req, res) =>{
     const pt = req.body;
@@ -97,11 +101,12 @@ const addContactPage = async (req, res) => {
   
   res.render("manager/addContactPatient", {
     message: req.flash("identityMessage"),
+    sidebar: "manager",
     title: "Covid Manager",
     tag: "Add Patient",
     treatment_place: tp,
     address: obj,
-    addressStringify:addressData,
+    addressStringify: addressData,
     id: req.query.id,
   });
 }
