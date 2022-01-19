@@ -9,7 +9,6 @@ const cookieParser = require("cookie-parser");
 const app = express();
 
 app.use(cookieParser());
-<<<<<<< Updated upstream
 app.use(flash());
 app.use(
   session({
@@ -20,27 +19,6 @@ app.use(
     expires: { maxAge: 600000 },
   })
 );
-=======
-app.use(flash()); <<
-<< << < Updated upstream
-app.use(session({
-    secret: 'secret',
-    cookie: { maxAge: 60000 },
-    resave: false,
-    saveUninitialized: false
-})); ===
-=== =
-app.use(
-    session({
-        secret: "secret",
-        cookie: { maxAge: 600000 },
-        resave: false,
-        saveUninitialized: true,
-        expires: { maxAge: 600000 },
-    })
-); >>>
->>> > Stashed changes
->>>>>>> Stashed changes
 //routes
 const patient = require("./routes/patients");
 const product = require("./routes/products");
