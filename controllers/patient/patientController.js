@@ -78,7 +78,16 @@ const add = async (req, res) => {
 
 const changeInfoPage =async (req, res) => {
   const tp = await serviceTreatment_place.getListTreatmentPlace();
-
+  for(var i=0;i<tp.length;i++){
+    tp[i].count = await serviceTreatment_place.countPatientByTreatmentId(tp[i].id);
+    if(tp[i].count<tp[i].capacity){
+      tp[i].value = tp[i].id;
+    }
+    else{
+      tp[i].style = "color:rgb(255,127,39);"
+      tp[i].name = tp[i].name+" (đã đầy)"
+    }
+  }
   res.render("manager/updatePatient", {
     sidebar: "manager",
     treatment_place: tp,
@@ -98,7 +107,16 @@ const addContactPage = async (req, res) => {
   const tp = await serviceTreatment_place.getListTreatmentPlace();
   const addressData = serviceAddress.getDataStringify();
   const obj = JSON.parse(addressData);
-  
+  for(var i=0;i<tp.length;i++){
+    tp[i].count = await serviceTreatment_place.countPatientByTreatmentId(tp[i].id);
+    if(tp[i].count<tp[i].capacity){
+      tp[i].value = tp[i].id;
+    }
+    else{
+      tp[i].style = "color:rgb(255,127,39);"
+      tp[i].name = tp[i].name+" (đã đầy)"
+    }
+  }
   res.render("manager/addContactPatient", {
     message: req.flash("identityMessage"),
     sidebar: "manager",
@@ -109,6 +127,7 @@ const addContactPage = async (req, res) => {
     addressStringify: addressData,
     id: req.query.id,
   });
+
 }
 const addContact = async (req, res) => {
   let pt = req.body;
@@ -117,8 +136,31 @@ const addContact = async (req, res) => {
   let user = await servicePatient.findPatientByIdentity(pt.CMND);
   
   if (user) {
-    req.flash("identityMessage", "Identity card already exists!");
-    return res.redirect("/patient/addContact");
+    const tp = await serviceTreatment_place.getListTreatmentPlace();
+    const addressData = serviceAddress.getDataStringify();
+    const obj = JSON.parse(addressData);
+    for(var i=0;i<tp.length;i++){
+      tp[i].count = await serviceTreatment_place.countPatientByTreatmentId(tp[i].id);
+      if(tp[i].count<tp[i].capacity){
+        tp[i].value = tp[i].id;
+      }
+      else{
+        tp[i].style = "color:rgb(255,127,39);"
+        tp[i].name = tp[i].name+" (đã đầy)"
+      }
+    }
+    res.render("manager/addContactPatient", {
+      message: "Identity card already exists!",
+      sidebar: "manager",
+      title: "Covid Manager",
+      tag: "Add Patient",
+      treatment_place: tp,
+      address: obj,
+      addressStringify: addressData,
+      id: pt.id,
+    });
+    return;
+    // return res.redirect("/patient/addContact");
   }
   
   let person =await servicePatient.findPatientById(pt.id);

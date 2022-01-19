@@ -94,9 +94,7 @@ const updateStatus=async(_id,st)=>{
   }
 }
 const  updateSrcPatient = async (id,type)=>{
-  if(type==="F4"){
-    return;
-  }
+  
   const person = await models.Patient.findOne({where:{
     id:id
   },raw:true})
