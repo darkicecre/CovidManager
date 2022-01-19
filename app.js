@@ -85,30 +85,6 @@ app.use("/", (req, res) => {
     }
     else{
         //render user sidebar
-    if (req.session.user.admin) {
-        res.render("manager/managerDashboard", {
-            tag: "Dashboard",
-            sidebar: "admin"
-        });
-    } else if (req.session.user.manager) {
-        res.render("manager/managerDashboard", {
-            tag: "Dashboard",
-            sidebar: "manager",
-        });
-    } else {
-        if (req.session.user.admin) {
-            res.render("manager/managerDashboard", {
-                tag: "Dashboard",
-                sidebar: "admin"
-            });
-        } else if (req.session.user.manager) {
-            res.render("manager/managerDashboard", {
-                tag: "Dashboard",
-                sidebar: "manager",
-            });
-        } else {
-            //render user sidebar
-        }
     }
 });
 
