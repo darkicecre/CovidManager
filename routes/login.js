@@ -25,24 +25,22 @@ router.post('/', passport.authenticate("local", {
                 identity_card: req.user.identity_card
             }
             if (req.user.role == "manager") {
-                req.session.user = {
-                    manager: true,
-                    admin: false,
-                    id: id,
-                    identity_card: req.user.identity_card
 
-                }
+                req.session.user.manager = true;
             }
             if (req.user.role == "admin") {
-                req.session.user = {
-                    manager: false,
-                    admin: true,
-                    id: id,
-                    identity_card: req.user.identity_card
-                }
-            }
+                req.session.user.manager = true;
 
-            res.redirect('/')
+            }
+            if (req.user = 'user' && req.user.first_time) {
+                controller.updateTime(id)
+                res.redirect('/user/basicInfor/edit/' + id)
+            } else {
+                res.redirect('/')
+
+            }
+            //res.send(req.user)
+
         } else {
             res.redirect('/login')
 

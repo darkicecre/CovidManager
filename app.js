@@ -9,6 +9,7 @@ const cookieParser = require("cookie-parser");
 const app = express();
 
 app.use(cookieParser());
+<<<<<<< Updated upstream
 app.use(flash());
 app.use(
   session({
@@ -19,6 +20,27 @@ app.use(
     expires: { maxAge: 600000 },
   })
 );
+=======
+app.use(flash()); <<
+<< << < Updated upstream
+app.use(session({
+    secret: 'secret',
+    cookie: { maxAge: 60000 },
+    resave: false,
+    saveUninitialized: false
+})); ===
+=== =
+app.use(
+    session({
+        secret: "secret",
+        cookie: { maxAge: 600000 },
+        resave: false,
+        saveUninitialized: true,
+        expires: { maxAge: 600000 },
+    })
+); >>>
+>>> > Stashed changes
+>>>>>>> Stashed changes
 //routes
 const patient = require("./routes/patients");
 const product = require("./routes/products");
@@ -60,14 +82,14 @@ app.use("/patient", patient);
 app.use("/product", product);
 app.use("/account", userAccount);
 app.use("/package", package);
-app.use("/payment",payment);
+app.use("/payment", payment);
 app.use("/treatmentPlace", treatmentPlace);
 app.use("/login", login);
 app.use("/user", user);
 
 
 app.use("/", (req, res) => {
-    if(!req.session.user){
+    if (!req.session.user) {
         res.redirect('/login');
     }
     console.log(req.session.user);
@@ -85,8 +107,33 @@ app.use("/", (req, res) => {
     }
     else{
         //render user sidebar
+    if (req.session.user.admin) {
+        res.render("manager/managerDashboard", {
+            tag: "Dashboard",
+            sidebar: "admin"
+        });
+    } else if (req.session.user.manager) {
+        res.render("manager/managerDashboard", {
+            tag: "Dashboard",
+            sidebar: "manager",
+        });
+    } else {
+        if (req.session.user.admin) {
+            res.render("manager/managerDashboard", {
+                tag: "Dashboard",
+                sidebar: "admin"
+            });
+        } else if (req.session.user.manager) {
+            res.render("manager/managerDashboard", {
+                tag: "Dashboard",
+                sidebar: "manager",
+            });
+        } else {
+            //render user sidebar
+        }
     }
 });
+
 
 //do not change
 const port = process.env.PORT || 3000;
