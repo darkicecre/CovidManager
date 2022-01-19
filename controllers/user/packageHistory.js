@@ -41,9 +41,10 @@ const list = async(req, res, user) => {
         payment.push(pt)
     }
     res.render("user/packageHistory", {
-        title: "Covid Manager",
-        tag: "Package History",
-        payment: payment,
+      sidebar: "user",
+      title: "Covid Manager",
+      tag: "Package History",
+      payment: payment,
     });
 };
 

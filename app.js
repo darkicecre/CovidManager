@@ -84,7 +84,9 @@ app.use("/", (req, res) => {
     });
     }
     else{
-        //render user sidebar
+      res.render("user/viewInfor", {
+        sidebar: "user",
+      });
     }
 });
 
