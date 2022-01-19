@@ -23,8 +23,15 @@
                             <label>Ngày sinh</label>
                             <div>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" name="birthday" placeholder="mm/dd/yyyy" id="datepicker-autoclose">
-                                    <span class="input-group-addon bg-custom b-0"><i class="mdi mdi-calendar text-white"></i></span>
+                                    <input type="date"class="form-control" name="birthday" placeholder="mm/dd/yyyy" id="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Ngày nhập</label>
+                            <div>
+                                <div class="input-group">
+                                    <input type="date"class="form-control" name="time_start" placeholder="mm/dd/yyyy" id="">
                                 </div>
                             </div>
                         </div>
@@ -59,6 +66,7 @@
                                     <input id="detail" type="text" name="address_detail" class="form-control" required >
                                 </div>
                         </div>
+                        
                         <input type="text" name="status" value="" style="display: none;">
                         <input type="text" name="id" value={{id}} style="display: none;">
                         <div class="form-group">
@@ -69,6 +77,7 @@
                                 {{/each}}
                             </select>
                         </div>
+                        
                         <div class="form-group">
                             <div>
                                 <button type="submit" class="btn btn-primary waves-effect waves-light">
