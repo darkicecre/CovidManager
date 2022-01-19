@@ -10,12 +10,15 @@ const app = express();
 
 app.use(cookieParser());
 app.use(flash());
-app.use(session({
-    secret: 'secret',
-    cookie: { maxAge: 60000 },
+app.use(
+  session({
+    secret: "secret",
+    cookie: { maxAge: 600000 },
     resave: false,
-    saveUninitialized: false
-}));
+    saveUninitialized: true,
+    expires: { maxAge: 600000 },
+  })
+);
 //routes
 const patient = require("./routes/patients");
 const product = require("./routes/products");
@@ -67,6 +70,7 @@ app.use("/", (req, res) => {
     if(!req.session.user){
         res.redirect('/login');
     }
+    console.log(req.session.user);
     if(req.session.user.admin){
     res.render("manager/managerDashboard", {
         tag: "Dashboard",
