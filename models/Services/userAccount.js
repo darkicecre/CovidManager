@@ -12,7 +12,28 @@ async function test() {
 const listAccount = () => {
     return models.UserAccount.findAll({ raw: true });
 };
-
+const findListUser = async() => {
+    try {
+        return await models.UserAccount.findAll({
+            where: {
+                role: 'user',
+            }
+        })
+    } catch (err) {
+        console.log(err);
+    }
+}
+const findListManagers = async() => {
+    try {
+        return await models.UserAccount.findAll({
+            where: {
+                role: 'manager',
+            }
+        })
+    } catch (err) {
+        console.log(err);
+    }
+}
 const addAccount = async(account) => {
     try {
         await models.UserAccount.create({
@@ -23,6 +44,7 @@ const addAccount = async(account) => {
             role: account.role,
             active: account.active,
             is_alert: account.is_alert,
+            first_time: account.first_time
 
         });
     } catch (err) {
@@ -75,6 +97,8 @@ const updateAccount = async(account) => {
             identity_card: account.identity_card,
             active: account.active,
             is_alert: account.is_alert,
+            first_time: account.first_time,
+
         }, {
             where: {
                 id: account.id
@@ -84,4 +108,4 @@ const updateAccount = async(account) => {
         console.log(err);
     }
 }
-module.exports = { listAccount, addAccount, deleteAccount, findById, updateAccount, findByUserName };
+module.exports = { listAccount, addAccount, deleteAccount, findById, updateAccount, findByUserName, findListUser, findListManagers };
