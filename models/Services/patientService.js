@@ -33,7 +33,8 @@ const addPatient = async (patient,address) => {
       name: patient.name,
       address: address,
       identity_card: patient.CMND,
-      birthdate:  '2016-06-22 19:10:25-07',
+      // birthdate:  '2016-06-22 19:10:25-07',
+      birthdate:patient.birthday,
       status: patient.status,
       treatment_place_id: patient.treatment_place,
     });
@@ -41,11 +42,13 @@ const addPatient = async (patient,address) => {
     
   }
 };
-const  addContactPatient = async (id_person,id_other_person) => {
+const  addContactPatient = async (id_person,id_other_person, time_start) => {
   try {
     await models.ContactHistory.create({
       id_person,
-      id_other_person
+      id_other_person,
+      time_start
+ 
     });
   } catch (err) {
     if (err) {
@@ -62,8 +65,14 @@ const patientDetail = async  (_id) => {
         {
           model: models.Patient,
           as:'id_other_person_Patient',
-          attribute: ["name", "identity_card", "address", "status","id"],
-        },
+          attribute: ["name", "identity_card", "birthdate","address", "status","id"],
+        }
+        // },
+        // {
+        //   model:models.ContactHistory,
+        //   as:'Contact_History',
+        //   attribute:["time_start"],
+        // }
       ],
       where: {
         [Op.and]: [
