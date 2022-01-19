@@ -17,9 +17,10 @@ const list = async(req, res, user) => {
         i++;
     }
     res.render("user/paymentHistory", {
-        title: "Covid Manager",
-        tag: "Payment History",
-        payment: payment,
+      sidebar: "user",
+      title: "Covid Manager",
+      tag: "Payment History",
+      payment: payment,
     });
 };
 

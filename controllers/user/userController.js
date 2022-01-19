@@ -8,6 +8,7 @@ const basicInfor = async(req, res, id) => {
     const result = await service.findById(user);
     res.render("user/basicInfor", {
         title: "Covid Manager",
+        sidebar: "user",
         tag: "User",
         id: result[0].id,
         user_name: result[0].user_name,
@@ -47,10 +48,11 @@ const editUser = async(req, res) => {
     const id = req.params;
     const result = await service.findById(id);
     res.render("user/userEdit", {
-        title: "Covid Manager",
-        tag: "User",
-        id: result[0].id,
-        password: result[0].password,
+      title: "Covid Manager",
+      sidebar: "user",
+      tag: "User",
+      id: result[0].id,
+      password: result[0].password,
     });
 
 }
