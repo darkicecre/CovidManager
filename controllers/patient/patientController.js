@@ -12,9 +12,10 @@ const list = async (req, res) => {
     pt[i].address = address.detail+', '+address.ward+', '+address.district+', '+address.city;
   }
   res.render("manager/patient", {
+    sidebar: "manager",
     title: "Covid Manager",
     tag: "Covid Patients",
-    patient: pt,    
+    patient: pt,
   });
 };
 const addPatient = async (req, res) => {
@@ -34,6 +35,7 @@ const addPatient = async (req, res) => {
   console.log(tp)
   res.render("manager/addPatient", {
     title: "Covid Manager",
+    sidebar: "manager",
     tag: "Add Patient",
     address: obj,
     addressStringify:addressData,
@@ -51,6 +53,7 @@ const PatientDetail = async (req, res) => {
    }
   res.render("manager/patientDetail", {
     title: "Covid Manager",
+    sidebar: "manager",
     tag: "Patient Detail",
     id: req.params.id,
     patient: patient,
@@ -75,11 +78,21 @@ const add = async (req, res) => {
 
 const changeInfoPage =async (req, res) => {
   const tp = await serviceTreatment_place.getListTreatmentPlace();
-
-  res.render('manager/updatePatient',{
-  treatment_place: tp,
-  id: req.query.id
-  })
+  for(var i=0;i<tp.length;i++){
+    tp[i].count = await serviceTreatment_place.countPatientByTreatmentId(tp[i].id);
+    if(tp[i].count<tp[i].capacity){
+      tp[i].value = tp[i].id;
+    }
+    else{
+      tp[i].style = "color:rgb(255,127,39);"
+      tp[i].name = tp[i].name+" (đã đầy)"
+    }
+  }
+  res.render("manager/updatePatient", {
+    sidebar: "manager",
+    treatment_place: tp,
+    id: req.query.id,
+  });
 }
 const changeInfo = async(req, res) =>{
     const pt = req.body;
@@ -94,16 +107,27 @@ const addContactPage = async (req, res) => {
   const tp = await serviceTreatment_place.getListTreatmentPlace();
   const addressData = serviceAddress.getDataStringify();
   const obj = JSON.parse(addressData);
-  
+  for(var i=0;i<tp.length;i++){
+    tp[i].count = await serviceTreatment_place.countPatientByTreatmentId(tp[i].id);
+    if(tp[i].count<tp[i].capacity){
+      tp[i].value = tp[i].id;
+    }
+    else{
+      tp[i].style = "color:rgb(255,127,39);"
+      tp[i].name = tp[i].name+" (đã đầy)"
+    }
+  }
   res.render("manager/addContactPatient", {
     message: req.flash("identityMessage"),
+    sidebar: "manager",
     title: "Covid Manager",
     tag: "Add Patient",
     treatment_place: tp,
     address: obj,
-    addressStringify:addressData,
+    addressStringify: addressData,
     id: req.query.id,
   });
+
 }
 const addContact = async (req, res) => {
   let pt = req.body;
@@ -112,8 +136,31 @@ const addContact = async (req, res) => {
   let user = await servicePatient.findPatientByIdentity(pt.CMND);
   
   if (user) {
-    req.flash("identityMessage", "Identity card already exists!");
-    return res.redirect("/patient/addContact");
+    const tp = await serviceTreatment_place.getListTreatmentPlace();
+    const addressData = serviceAddress.getDataStringify();
+    const obj = JSON.parse(addressData);
+    for(var i=0;i<tp.length;i++){
+      tp[i].count = await serviceTreatment_place.countPatientByTreatmentId(tp[i].id);
+      if(tp[i].count<tp[i].capacity){
+        tp[i].value = tp[i].id;
+      }
+      else{
+        tp[i].style = "color:rgb(255,127,39);"
+        tp[i].name = tp[i].name+" (đã đầy)"
+      }
+    }
+    res.render("manager/addContactPatient", {
+      message: "Identity card already exists!",
+      sidebar: "manager",
+      title: "Covid Manager",
+      tag: "Add Patient",
+      treatment_place: tp,
+      address: obj,
+      addressStringify: addressData,
+      id: pt.id,
+    });
+    return;
+    // return res.redirect("/patient/addContact");
   }
   
   let person =await servicePatient.findPatientById(pt.id);

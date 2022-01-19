@@ -32,10 +32,11 @@ const list = async (req, res) => {
     package.price=Intl.NumberFormat('vi-VN').format(package.price)+' đ'
     package.link="/package/detailPackage/"+package.id
   }))
-  res.render('manager/package',{
+  res.render("manager/package", {
+    sidebar: "manager",
     tag: "Package",
-    package:pt
-  })
+    package: pt,
+  });
 };
 const addPackage = async (req, res) => {
     const pt = await serviceProduct.listProduct();
@@ -43,9 +44,9 @@ const addPackage = async (req, res) => {
       element.price=Intl.NumberFormat('vi-VN').format(element.price)
     });
    res.render("manager/addPackage", {
+     sidebar: "manager",
      tag: "Add Package",
-     product:pt,
-
+     product: pt,
    });
 };
 
@@ -93,8 +94,7 @@ const toUpdatePackage = async (req,res)=>{
       element.price=Intl.NumberFormat('vi-VN').format(element.price)
     });
   res.render("manager/updatePackage",{
-    nav:"nav",
-    sidebar: "sidebar",
+    sidebar: "manager",
     tag: "Update Package",
     id:obj[0].id,
     name:obj[0].name,
@@ -120,16 +120,16 @@ const packageDetail = async (req, res) => {
   }
   console.log(val)
   res.render("manager/packageDetail", {
+    sidebar: "manager",
     title: "Covid Manager",
     tag: "Package Detail",
     id: req.params.id,
-    name:val.name,
-    price:val.price,
-    limit_day:val.limit_count_package_day,
-    limit_week:val.limit_count_package_week,
-    limit_month:val.limit_count_package_month,
-    products: val.products
-
+    name: val.name,
+    price: val.price,
+    limit_day: val.limit_count_package_day,
+    limit_week: val.limit_count_package_week,
+    limit_month: val.limit_count_package_month,
+    products: val.products,
   });
 } catch(err) {  }
 };

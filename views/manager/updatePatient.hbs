@@ -12,9 +12,9 @@
         <input name="id" value="{{id}}" style="display: none" >
         <div class="form-group">
             <label>Nơi điều trị:</label>
-            <select name="treatment_place" >
+            <select name="treatment_place" class="form-control" required>
                 {{#each treatment_place}}
-                <option value="{{id}}">{{name}}</option>
+                <option value="{{value}}" style="{{style}}">{{name}}</option>
                 {{/each}}
             </select>
         </div>

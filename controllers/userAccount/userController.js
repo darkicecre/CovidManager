@@ -2,17 +2,37 @@ const service = require("../../models/Services/userAccount");
 
 const list = async(req, res) => {
     const result = await service.listAccount();
-    res.render("admin/account", {
+    if(req.session.user.manager){
+        res.render("admin/account", {
+        sidebar: "manager",
         title: "Covid Manager",
         tag: "Account",
         account: result,
-    });
+        })
+    }
+    else{
+        res.render("admin/account", {
+          sidebar: "admin",
+          title: "Covid Manager",
+          tag: "Account",
+          account: result,
+        });
+    }
 };
 
 const addAccount = (req, res) => {
-    res.render("admin/addAccount", {
+    if (req.session.user.manager){
+      res.render("admin/addAccount", {
+        sidebar: "manager",
         tag: "Add Product",
-    });
+      });
+    }
+    else{
+        res.render("admin/addAccount", {
+          sidebar: "admin",
+          tag: "Add Product",
+        });
+    }
 };
 
 const detailUser = async(req, res) => {
@@ -103,17 +123,17 @@ const updateAccount = (req, res) => {
     console.log(acc);
     //service.updateAccount(pt).then(res.redirect("/user"));
 }
-const addUserAccount = async (req,res)=>{
-    let account = req.body;
-    let user = await service.findAccount(account)
-    console.log(user);
-    if(user){
-        req.flash("accountMessage", "Account already exists!");
-        return  res.redirect('/user/addUserAccount');
-    }
-    service.addUserAccount(account);
-    res.redirect('/dashboard');   
-}
+// const addUserAccount = async (req,res)=>{
+//     let account = req.body;
+//     let user = await service.findAccount(account)
+//     console.log(user);
+//     if(user){
+//         req.flash("accountMessage", "Account already exists!");
+//         return  res.redirect('/user/addUserAccount');
+//     }
+//     service.addUserAccount(account);
+//     res.redirect('/dashboard');   
+// }
 
 
-module.exports = {addUserAccount,list, addAccount, add, accountDetail, updateAccount, detailUser, editAccount, edit, deleteAccount };
+module.exports = {list, addAccount, add, accountDetail, updateAccount, detailUser, editAccount, edit, deleteAccount };

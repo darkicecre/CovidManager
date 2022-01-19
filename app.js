@@ -17,12 +17,15 @@ const options = {
 };
 app.use(cookieParser());
 app.use(flash());
-app.use(session({
-    secret: 'secret',
-    cookie: { maxAge: 60000 },
+app.use(
+  session({
+    secret: "secret",
+    cookie: { maxAge: 600000 },
     resave: false,
-    saveUninitialized: false
-}));
+    saveUninitialized: true,
+    expires: { maxAge: 600000 },
+  })
+);
 //routes
 const patient = require("./routes/patients");
 const product = require("./routes/products");
@@ -32,7 +35,7 @@ const treatmentPlace = require("./routes/treatmentPlace");
 const userAccount = require("./routes/account");
 const login = require("./routes/login");
 const user = require("./routes/user");
-const manageUser = require("./routes/manageUser");
+
 
 hbs.registerHelper('ifEquals', function(arg1, arg2, options) {
     return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
@@ -69,9 +72,11 @@ app.use("/treatmentPlace", treatmentPlace);
 app.use("/login", login);
 app.use("/user", user);
 
-app.use("/manageUser", manageUser);
 
 app.use("/", (req, res) => {
+    if(!req.session.user){
+        res.redirect('/login');
+    }
     console.log(req.session.user);
     if(req.session.user.admin){
     res.render("manager/managerDashboard", {
