@@ -12,9 +12,10 @@ const list = async (req, res) => {
     pt[i].address = address.detail+', '+address.ward+', '+address.district+', '+address.city;
   }
   res.render("manager/patient", {
+    sidebar: "manager",
     title: "Covid Manager",
     tag: "Covid Patients",
-    patient: pt,    
+    patient: pt,
   });
 };
 const addPatient = async (req, res) => {
@@ -34,6 +35,7 @@ const addPatient = async (req, res) => {
   console.log(tp)
   res.render("manager/addPatient", {
     title: "Covid Manager",
+    sidebar: "manager",
     tag: "Add Patient",
     address: obj,
     addressStringify:addressData,
@@ -51,6 +53,7 @@ const PatientDetail = async (req, res) => {
    }
   res.render("manager/patientDetail", {
     title: "Covid Manager",
+    sidebar: "manager",
     tag: "Patient Detail",
     id: req.params.id,
     patient: patient,
@@ -85,10 +88,11 @@ const changeInfoPage =async (req, res) => {
       tp[i].name = tp[i].name+" (đã đầy)"
     }
   }
-  res.render('manager/updatePatient',{
-  treatment_place: tp,
-  id: req.query.id
-  })
+  res.render("manager/updatePatient", {
+    sidebar: "manager",
+    treatment_place: tp,
+    id: req.query.id,
+  });
 }
 const changeInfo = async(req, res) =>{
     const pt = req.body;
@@ -115,11 +119,12 @@ const addContactPage = async (req, res) => {
   }
   res.render("manager/addContactPatient", {
     message: req.flash("identityMessage"),
+    sidebar: "manager",
     title: "Covid Manager",
     tag: "Add Patient",
     treatment_place: tp,
     address: obj,
-    addressStringify:addressData,
+    addressStringify: addressData,
     id: req.query.id,
   });
 
@@ -145,14 +150,14 @@ const addContact = async (req, res) => {
       }
     }
     res.render("manager/addContactPatient", {
-      message:"Identity card already exists!",
+      message: "Identity card already exists!",
+      sidebar: "manager",
       title: "Covid Manager",
       tag: "Add Patient",
       treatment_place: tp,
       address: obj,
-      addressStringify:addressData,
+      addressStringify: addressData,
       id: pt.id,
-      
     });
     return;
     // return res.redirect("/patient/addContact");

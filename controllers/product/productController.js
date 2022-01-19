@@ -6,6 +6,7 @@ const list = async (req, res) => {
       element.price=Intl.NumberFormat('vi-VN').format(element.price)
   });
   res.render("manager/product", {
+    sidebar: "manager",
     title: "Covid Manager",
     tag: "Products",
     product: pt,
@@ -13,21 +14,23 @@ const list = async (req, res) => {
 };
 const addProduct = (req, res) => {
    res.render("manager/addProduct", {
+     sidebar: "manager",
      tag: "Add Product",
    });
 };
 const toUpdateProduct = async (req,res)=>{
   const pt = req.body;
   const obj = await service.findById(pt);
-  res.render("manager/updateProduct",{
+  res.render("manager/updateProduct", {
+    sidebar: "manager",
     tag: "Update Product",
-    id:obj[0].id,
-    name:obj[0].name,
-    price:obj[0].price,
-    formatPrice:Intl.NumberFormat('vi-VN').format(obj[0].price) + ' đ',
-    image:obj[0].image,
-    note:obj[0].note,
-  })
+    id: obj[0].id,
+    name: obj[0].name,
+    price: obj[0].price,
+    formatPrice: Intl.NumberFormat("vi-VN").format(obj[0].price) + " đ",
+    image: obj[0].image,
+    note: obj[0].note,
+  });
 }
 
 const add = (req, res) => {
@@ -43,9 +46,10 @@ const deletePro=(req,res)=>{
 }
 
 const productDetail = (req,res)=>{
-  res.render("manager/productDetail",{
-    tag:"Product Detail"
-  })
+  res.render("manager/productDetail", {
+    sidebar: "manager",
+    tag: "Product Detail",
+  });
 }
 
 const updateProduct=(req,res)=>{
