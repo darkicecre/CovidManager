@@ -17,6 +17,7 @@ router.post('/addAccount', (req, res) => {
     }
 
 });
+router.get("/sendAlert",controller.sendAlert);
 router.get('/edit/:id', controller.editAccount);
 router.post('/edit/:id', controller.edit);
 router.get('/delete/:id', controller.deleteAccount);

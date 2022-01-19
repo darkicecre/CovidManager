@@ -1,3 +1,4 @@
+const axios = require('axios').default;
 const service = require("../../models/Services/userAccount");
 
 const list = async(req, res) => {
@@ -134,6 +135,19 @@ const updateAccount = (req, res) => {
 //     service.addUserAccount(account);
 //     res.redirect('/dashboard');   
 // }
+const sendAlert = async (req, res)=>{
 
+}
 
-module.exports = {list, addAccount, add, accountDetail, updateAccount, detailUser, editAccount, edit, deleteAccount };
+module.exports = {
+  list,
+  addAccount,
+  add,
+  accountDetail,
+  updateAccount,
+  detailUser,
+  editAccount,
+  edit,
+  deleteAccount,
+  sendAlert
+};

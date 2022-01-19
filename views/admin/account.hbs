@@ -20,7 +20,7 @@
               <tr>
                 <th class="text-center">USER NAME</th>
                 <th class="text-center" style="width:20%">PASSWORD</th>
-                <th class="text-center" style="width:10%">TRẠNG THÁI</th>
+                <th class="text-center" style="width:10%">SỐ DƯ</th>
                 <th class="text-center">IS ALERT</th>
               </tr>
             </thead>
@@ -32,8 +32,14 @@
                   <td> <a href="/account/{{id}}">{{user_name}}</a></td>
                   <td> <a href="/account/{{id}}">{{password}}</a></td>
 
-                  <td><a href="/account/{{id}}">{{active}}</a></td>
+                  <td><a href="/account/{{id}}">{{payment}}</a></td>
                   <td><a href="/account/{{id}}">{{is_alert}}</a></td>
+                  <form  action="/account/sendAlert" method="post">
+                      <input type="text" name="id" value={{id}} style="display: none;">
+                      <button type="submit" style="margin-top: 30px;">
+                        <i class="mdi mdi-delete-forever" style="color: #ff2b2b; font-size: 30px; text-align: center; "></i>
+                      </button>
+                    </form>
                 </tr>
               {{/each}}
             </tbody>
