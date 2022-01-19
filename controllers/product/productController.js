@@ -54,7 +54,7 @@ const deletePro=(req,res)=>{
     req.session.user.id,
     "delete",
     date,
-    pt.name
+    pt.id
   );
   service.deleteProduct(pt).then(res.redirect("/product"));
 }

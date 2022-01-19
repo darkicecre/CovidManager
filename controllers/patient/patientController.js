@@ -77,7 +77,7 @@ const add = async (req, res) => {
   
   console.log(req.session.user);
   const date =  Date.now();
-  serviceManagerHistory.addManagerLog(req.session.user.id,"add",date,pt.CMND);
+  serviceManagerHistory.addManagerPatientLog(req.session.user.id,"add",date,pt.CMND);
   res.redirect("/patient");
 };
 
@@ -105,7 +105,7 @@ const changeInfo = async(req, res) =>{
     
     servicePatient.updateSrcPatient(pt.id,pt.status);
     const date = Date.now();
-    serviceManagerHistory.addManagerLog(
+    serviceManagerHistory.addManagerPatientLog(
       req.session.user.id,
       "change",
       date,
@@ -181,7 +181,14 @@ const addContact = async (req, res) => {
   await servicePatient.addPatient(pt,address);
   let id_other_person = await servicePatient.findPatientByIdentity(pt.CMND);
 
-  await servicePatient.addContactPatient(pt.id,id_other_person.id)
+  await servicePatient.addContactPatient(pt.id,id_other_person.id);
+   const date = Date.now();
+   serviceManagerHistory.addManagerPatientLog(
+     req.session.user.id,
+     "add",
+     date,
+     pt.CMND
+   );
   res.redirect("/patient/"+pt.id);
 }
 module.exports = {
