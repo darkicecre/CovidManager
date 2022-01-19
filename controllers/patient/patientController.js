@@ -3,6 +3,7 @@ const {models} = require("../../models");
 const servicePatient = require("../../models/Services/patientService");
 const serviceTreatment_place = require("../../models/Services/treatment_placeService");
 const serviceAddress = require("../../models/Services/addressService");
+const serviceManagerHistory =require("../../models/Services/managerHistoryService");
 
 //controller
 const list = async (req, res) => {
@@ -73,7 +74,11 @@ const add = async (req, res) => {
   console.log(address);
   
   servicePatient.addPatient(pt,address)
-    .then(res.redirect("/patient"))
+  
+  console.log(req.session.user);
+  const date =  Date.now();
+  serviceManagerHistory.addManagerLog(req.session.user.id,"add",date,pt.CMND);
+  res.redirect("/patient");
 };
 
 const changeInfoPage =async (req, res) => {
@@ -99,7 +104,13 @@ const changeInfo = async(req, res) =>{
     console.log(pt)
     
     servicePatient.updateSrcPatient(pt.id,pt.status);
-
+    const date = Date.now();
+    serviceManagerHistory.addManagerLog(
+      req.session.user.id,
+      "change",
+      date,
+      pt.CMND
+    );
     res.redirect("/patient");
 }
 

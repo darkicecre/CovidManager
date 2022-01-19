@@ -1,4 +1,5 @@
 const service = require("../../models/Services/userAccount");
+const serviceHistory = require("../../models/Services/managerHistoryService");
 
 const list = async(req, res) => {
     const result = await service.listAccount();
@@ -135,5 +136,13 @@ const updateAccount = (req, res) => {
 //     res.redirect('/dashboard');   
 // }
 
-
-module.exports = {list, addAccount, add, accountDetail, updateAccount, detailUser, editAccount, edit, deleteAccount };
+const listHistory = async (req,res) =>{
+    const log = await serviceHistory.logList();
+    console.log(log);
+    res.render("admin/managerHistory",{
+        sidebar: "admin",
+        tag: "History",
+        log: log,
+    })
+}
+module.exports = {list, addAccount, add, accountDetail, updateAccount, detailUser, editAccount, edit, deleteAccount,listHistory };
