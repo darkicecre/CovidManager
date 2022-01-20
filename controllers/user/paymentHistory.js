@@ -9,18 +9,20 @@ const list = async(req, res, user) => {
     const result = await service.findByPayerId(id);
     for (r of result) {
         var packages = await PackageService.findById2(r.id_package);
-        payment[i].package_name = packages[0].name;
-        payment[i].count = r.count;
-        payment[i].time_start = r.time_start;
-        payment[i].price = r.price;
-        payment[i].list_product = r.list_product;
-        i++;
+        var p = {
+            package_name: packages[0].name,
+            count: r.count,
+            time_start: r.time_start,
+            price: r.price
+
+        }
+        payment.push(p)
     }
     res.render("user/paymentHistory", {
-      sidebar: "user",
-      title: "Covid Manager",
-      tag: "Payment History",
-      payment: payment,
+        sidebar: "user",
+        title: "Covid Manager",
+        tag: "Payment History",
+        payment: payment,
     });
 };
 
