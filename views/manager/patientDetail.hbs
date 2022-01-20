@@ -25,10 +25,13 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th style="width:35%">HỌ TÊN</th>
+                                    <th style="width:30%">HỌ TÊN</th>
                                     <th style="width:10%" >CMND</th>
-                                    <th style="width:40%">ĐỊA CHỈ</th>
-                                    <th style="width:15%">Trạng thái</th>
+                                    <th style="width:10%" >NGÀY SINH</th>
+                                   
+                                    <th style="width:30%">ĐỊA CHỈ</th>
+                                    <th style="width:10%">Trạng thái</th>
+                                    <th style="width:20%" >NGÀY NHẬP</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -36,8 +39,10 @@
                                 <tr>
                                     <td>{{'id_other_person_Patient.name'}}</td>
                                     <td>{{'id_other_person_Patient.identity_card'}}</td>
+                                    <td>{{'id_other_person_Patient.birthdate'}}</td>
                                     <td>{{'id_other_person_Patient.address'}}</td>
                                     <td>{{'id_other_person_Patient.status'}}</td>
+                                    <td>{{time_start}}</td>
                                 </tr>
                                 {{/each}}
                             </tbody>

@@ -38,15 +38,15 @@
 
         {{/if}}
 
-        {{#if sidebar includeZero=true}}
-        {{else}}
-            {{> sidebar}}
-
-        {{/if}}
         {{#ifEquals sidebar "admin"}}
             {{> admin_sidebar}}
         {{/ifEquals}}
-
+        {{#ifEquals sidebar "manager"}}
+            {{> manager_sidebar}}
+        {{/ifEquals}}
+        {{#ifEquals sidebar "user"}}
+            {{> user_sidebar}}
+        {{/ifEquals}}
         <div class="content-page">
                 <!-- Start content -->
                 <div class="content">

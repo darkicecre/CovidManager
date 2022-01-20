@@ -12,9 +12,10 @@ const list = async (req, res) => {
     pt[i].address = address.detail+', '+address.ward+', '+address.district+', '+address.city;
   }
   res.render("manager/patient", {
+    sidebar: "manager",
     title: "Covid Manager",
     tag: "Covid Patients",
-    patient: pt,    
+    patient: pt,
   });
 };
 const addPatient = async (req, res) => {
@@ -34,6 +35,7 @@ const addPatient = async (req, res) => {
   console.log(tp)
   res.render("manager/addPatient", {
     title: "Covid Manager",
+    sidebar: "manager",
     tag: "Add Patient",
     address: obj,
     addressStringify:addressData,
@@ -51,6 +53,7 @@ const PatientDetail = async (req, res) => {
    }
   res.render("manager/patientDetail", {
     title: "Covid Manager",
+    sidebar: "manager",
     tag: "Patient Detail",
     id: req.params.id,
     patient: patient,
@@ -85,10 +88,11 @@ const changeInfoPage =async (req, res) => {
       tp[i].name = tp[i].name+" (đã đầy)"
     }
   }
-  res.render('manager/updatePatient',{
-  treatment_place: tp,
-  id: req.query.id
-  })
+  res.render("manager/updatePatient", {
+    sidebar: "manager",
+    treatment_place: tp,
+    id: req.query.id,
+  });
 }
 const changeInfo = async(req, res) =>{
     const pt = req.body;
@@ -115,11 +119,12 @@ const addContactPage = async (req, res) => {
   }
   res.render("manager/addContactPatient", {
     message: req.flash("identityMessage"),
+    sidebar: "manager",
     title: "Covid Manager",
     tag: "Add Patient",
     treatment_place: tp,
     address: obj,
-    addressStringify:addressData,
+    addressStringify: addressData,
     id: req.query.id,
   });
 
@@ -145,14 +150,14 @@ const addContact = async (req, res) => {
       }
     }
     res.render("manager/addContactPatient", {
-      message:"Identity card already exists!",
+      message: "Identity card already exists!",
+      sidebar: "manager",
       title: "Covid Manager",
       tag: "Add Patient",
       treatment_place: tp,
       address: obj,
-      addressStringify:addressData,
+      addressStringify: addressData,
       id: pt.id,
-      
     });
     return;
     // return res.redirect("/patient/addContact");
@@ -161,11 +166,12 @@ const addContact = async (req, res) => {
   let person =await servicePatient.findPatientById(pt.id);
   pt.status ='F' + (parseInt(person.status[1]) + 1).toString();
   var address = '{"city":"'+pt.city+'","ward":"'+pt.address_ward+'","district":"'+pt.address_district+'","detail":"'+pt.address_detail+'"}';
-  console.log(pt)
+  console.log(pt.time_start)
   await servicePatient.addPatient(pt,address);
   let id_other_person = await servicePatient.findPatientByIdentity(pt.CMND);
-
-  await servicePatient.addContactPatient(pt.id,id_other_person.id)
+  // console.log('Id cua other person' +id_other_person.id)
+  
+  await servicePatient.addContactPatient(pt.id,id_other_person.id, pt.time_start)
   res.redirect("/patient/"+pt.id);
 }
 module.exports = {

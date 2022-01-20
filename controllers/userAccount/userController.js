@@ -1,18 +1,37 @@
 const service = require("../../models/Services/userAccount");
 
 const list = async(req, res) => {
-    const result = await service.listAccount();
-    res.render("admin/account", {
-        title: "Covid Manager",
-        tag: "Account",
-        account: result,
-    });
+    if (req.session.user.manager) {
+        const result = await service.findListUser();
+        res.render("admin/account", {
+            sidebar: "manager",
+            title: "Covid Manager",
+            tag: "Account",
+            account: result,
+        })
+    } else {
+        const result = await service.findListManagers();
+        res.render("admin/account", {
+            sidebar: "admin",
+            title: "Covid Manager",
+            tag: "Account",
+            account: result,
+        });
+    }
 };
 
 const addAccount = (req, res) => {
-    res.render("admin/addAccount", {
-        tag: "Add Product",
-    });
+    if (req.session.user.manager) {
+        res.render("admin/addAccount", {
+            sidebar: "manager",
+            tag: "Add Product",
+        });
+    } else {
+        res.render("admin/addAccount", {
+            sidebar: "admin",
+            tag: "Add Product",
+        });
+    }
 };
 
 const detailUser = async(req, res) => {
@@ -21,6 +40,8 @@ const detailUser = async(req, res) => {
     res.render("admin/accountDetail", {
         title: "Covid Manager",
         tag: "Account",
+        sidebar: "admin",
+
         id: result[0].id,
         user_name: result[0].user_name,
         password: result[0].password,
@@ -29,6 +50,7 @@ const detailUser = async(req, res) => {
         role: result[0].role,
         active: result[0].active,
         is_alert: result[0].is_alert,
+        first_time: result[0].first_time,
     });
 }
 const editAccount = async(req, res) => {
@@ -37,6 +59,7 @@ const editAccount = async(req, res) => {
     res.render("admin/accountEdit", {
         title: "Covid Manager",
         tag: "Account",
+        sidebar: "admin",
         id: result[0].id,
         user_name: result[0].user_name,
         password: result[0].password,
@@ -85,6 +108,7 @@ const add = (req, res, user) => {
     if (user.admin) {
         acc.role = "manager";
     }
+    acc.first_time = true;
     service.addAccount(acc).then(res.redirect("/account"))
 };
 const deleteAccount = (req, res) => {
@@ -94,26 +118,28 @@ const deleteAccount = (req, res) => {
 
 const accountDetail = (req, res) => {
     res.render("manager/productDetail", {
+        sidebar: "admin",
+
         tag: "Account Detail"
     })
 }
 
 const updateAccount = (req, res) => {
-    const acc = req.body;
-    console.log(acc);
-    //service.updateAccount(pt).then(res.redirect("/user"));
-}
-const addUserAccount = async (req,res)=>{
-    let account = req.body;
-    let user = await service.findAccount(account)
-    console.log(user);
-    if(user){
-        req.flash("accountMessage", "Account already exists!");
-        return  res.redirect('/user/addUserAccount');
+        const acc = req.body;
+        console.log(acc);
+        //service.updateAccount(pt).then(res.redirect("/user"));
     }
-    service.addUserAccount(account);
-    res.redirect('/dashboard');   
-}
+    // const addUserAccount = async (req,res)=>{
+    //     let account = req.body;
+    //     let user = await service.findAccount(account)
+    //     console.log(user);
+    //     if(user){
+    //         req.flash("accountMessage", "Account already exists!");
+    //         return  res.redirect('/user/addUserAccount');
+    //     }
+    //     service.addUserAccount(account);
+    //     res.redirect('/dashboard');   
+    // }
 
 
-module.exports = {addUserAccount,list, addAccount, add, accountDetail, updateAccount, detailUser, editAccount, edit, deleteAccount };
+module.exports = { list, addAccount, add, accountDetail, updateAccount, detailUser, editAccount, edit, deleteAccount };
