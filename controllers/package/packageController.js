@@ -3,6 +3,7 @@ const async = require("hbs/lib/async");
 const { Json } = require("sequelize/dist/lib/utils");
 const service = require("../../models/Services/packageService");
 const serviceProduct = require("../../models/Services/productService");
+const serviceManagerHistory = require("../../models/Services/managerHistoryService");
 
 const list = async (req, res) => {
   const pt = await service.listPackage();
@@ -60,9 +61,17 @@ const add = async (req, res) => {
       Jsonfy = Jsonfy + ","
     }
   }
-  Jsonfy = Jsonfy + ']';
-  await service.addPackage(pt, Jsonfy).then(res.redirect("/package"));
-
+  Jsonfy=Jsonfy+']';
+  await service.addPackage(pt,Jsonfy)
+  
+  const date = new Date().toLocaleString();
+  serviceManagerHistory.addManagerPackageLog(
+    req.session.user.id,
+    "add",
+    date,
+    pt.name
+  );
+  res.redirect("/package");
 };
 const updatePackage = async (req, res) => {
   const pt = req.body;
@@ -73,11 +82,26 @@ const updatePackage = async (req, res) => {
       Jsonfy = Jsonfy + ","
     }
   }
-  Jsonfy = Jsonfy + ']';
-  await service.update(pt, Jsonfy).then(res.redirect("/package"));
+  Jsonfy=Jsonfy+']';
+  const date = new Date().toLocaleString();
+  serviceManagerHistory.addManagerPackageLog(
+    req.session.user.id,
+    "update",
+    date,
+    pt.name
+  );
+  await service.update(pt,Jsonfy).then(res.redirect("/package"));
 }
 const deletePackage = async (req, res) => {
   const pt = req.body;
+  console.log(pt);
+  const date = new Date().toLocaleString();
+  serviceManagerHistory.addManagerPackageLog(
+    req.session.user.id,
+    "delete",
+    date,
+    pt.name
+  );
   await service.deletePackage(pt).then(res.redirect("/package"));
 }
 const toUpdatePackage = async (req, res) => {

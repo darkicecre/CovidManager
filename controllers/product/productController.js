@@ -1,4 +1,5 @@
 const service = require("../../models/Services/productService");
+const serviceManagerHistory = require("../../models/Services/managerHistoryService");
 
 const list = async (req, res) => {
   const pt = await service.listProduct();
@@ -34,14 +35,27 @@ const toUpdateProduct = async (req,res)=>{
 }
 
 const add = (req, res) => {
-   const pt = req.body;
-   console.log(pt);
-   service.addProduct(pt)
-     .then(res.redirect("/product"))
+  const pt = req.body;
+  
+  service.addProduct(pt);
+  const date = new Date().toLocaleString();
+   serviceManagerHistory.addManagerProductLog(
+     req.session.user.id,
+     "add",
+     date,
+     pt.name
+  );
+  res.redirect("/product")
 };
 const deletePro=(req,res)=>{
   const pt = req.body;
-  console.log(pt);
+  const date = new Date().toLocaleString();
+  serviceManagerHistory.addManagerProductLog(
+    req.session.user.id,
+    "delete",
+    date,
+    pt.id
+  );
   service.deleteProduct(pt).then(res.redirect("/product"));
 }
 
@@ -54,7 +68,14 @@ const productDetail = (req,res)=>{
 
 const updateProduct=(req,res)=>{
   const pt = req.body;
-  console.log(pt);
+  
+  const date = Date.now();
+  serviceManagerHistory.addManagerProductLog(
+    req.session.user.id,
+    "update",
+    date,
+    pt.name
+  );
   service.updateProduct(pt).then(res.redirect("/product"));
 }
 module.exports = { list, addProduct,add,productDetail, deletePro,toUpdateProduct, updateProduct };
