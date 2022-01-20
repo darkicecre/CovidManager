@@ -34,6 +34,7 @@ const list = async (req, res) => {
     }))
     res.render('user/purchase',{
         tag: "Purchase",
+        sidebar:"user",
         package:pt
     })
 };
