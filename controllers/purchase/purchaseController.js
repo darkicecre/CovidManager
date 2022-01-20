@@ -6,6 +6,8 @@ const servicePackage = require("../../models/Services/packageService");
 const serviceProduct = require("../../models/Services/productService");
 const servicePaymentHistory = require("../../models/Services/paymentHistoryService");
 const { models } = require("../../models");
+const https = require("https");
+const httpsAgent = new https.Agent({ rejectUnauthorized: false });
 
 const list = async (req, res) => {
     const pt = await servicePackage.listPackage();
@@ -67,10 +69,13 @@ const buy =async  (req, res) =>{
     }
     await servicePaymentHistory.addPayment(bill);
 
-    await axios.post("http://localhost:8000/update",{
-    Authorization: "Bearer "+req.session.user.access_token,
-    Money: -price*count
-    })
+    await axios.post("https://localhost:8000/update",
+    {
+        Authorization: "Bearer "+req.session.user.access_token,
+        Money: -price*count
+    },
+    {httpsAgent}
+    )
       .then(function (response) {
         console.log(response.status);
       })

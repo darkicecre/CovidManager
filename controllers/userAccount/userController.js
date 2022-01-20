@@ -2,6 +2,8 @@ const axios = require('axios').default;
 
 const service = require("../../models/Services/userAccount");
 const serviceHistory = require("../../models/Services/managerHistoryService");
+const https = require("https");
+const httpsAgent = new https.Agent({ rejectUnauthorized: false });
 
 const list = async(req, res) => {
     if (req.session.user.manager) {
@@ -112,9 +114,10 @@ const add = async(req, res, user) => {
     await service.addAccount(acc);
     const account = await service.findByUserName(acc.user_name);
     if (account != null && account.id != undefined) {
-        axios.post('http://localhost:8000/signup', {
-                id: account.id
-            })
+        axios.post('https://localhost:8000/signup', {
+                id: account.id,
+            },{httpsAgent}
+            )
             .then(function(response) {
                 console.log(response.status == 201);
             })
@@ -163,11 +166,11 @@ const addMoneyPage = (req, res) => {
 };
 
 const addMoney = (req, res) => {
-    axios.post('http://localhost:8000/update', {
+    axios.post('https://localhost:8000/update', {
             Authorization: "Bearer " + req.session.user.access_token,
             Money: req.body.money
-
-        })
+        },{httpsAgent}
+        )
         .then(function(response) {
             // handle success
             console.log(response.status == 201);
@@ -181,7 +184,7 @@ const addMoney = (req, res) => {
 };
 const totalMoney = async(req, res, user) => {
     var totalMoney = 0;
-    await axios.get('http://localhost:8000/find/' + user.id)
+    await axios.get('https://localhost:8000/find/' + user.id,{httpsAgent})
         .then(function(response) {
             // handle success
             totalMoney = response.data.total_money;

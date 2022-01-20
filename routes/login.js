@@ -3,7 +3,8 @@ var router = express.Router();
 const controller = require('../controllers/login/login');
 const passport = require('../controllers/login/passport-config');
 const axios = require('axios').default;
-
+const https = require('https');
+const httpsAgent = new https.Agent({ rejectUnauthorized: false });
 router.get('/', (req, res) => {
     if (controller.isAuthenticated(req, res)) {
         res.redirect('/')
@@ -35,9 +36,7 @@ router.post('/', passport.authenticate("local", {
                 req.session.user.admin = true;
             }
             else {
-                await axios.post('http://localhost:8000/login', {
-                        id: id
-                    })
+                await axios.post('https://localhost:8000/login', {id: id},{httpsAgent})
                     .then(function(response) {
                         // handle success
                         access_token = response.data.accessToken;
