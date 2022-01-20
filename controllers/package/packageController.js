@@ -31,7 +31,9 @@ const list = async (req, res) => {
     }))
     package.price=Intl.NumberFormat('vi-VN').format(package.price)+' đ'
     package.link="/package/detailPackage/"+package.id
+  
   }))
+  console.log(pt)
   res.render("manager/package", {
     sidebar: "manager",
     tag: "Package",
