@@ -39,5 +39,8 @@
   },
   "nodemonConfig": {
     "ext": "js,hbs"
+  },
+  "devDependencies": {
+    "https-localhost": "^4.7.0"
   }
 }
