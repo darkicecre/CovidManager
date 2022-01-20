@@ -1,4 +1,4 @@
-const axios = require("axios");
+
 const service = require("../../models/Services/userAccount");
 
 const list = async (req, res) => {
