@@ -1,8 +1,13 @@
+const axios = require('axios').default;
 const { redirect } = require("express/lib/response");
 const async = require("hbs/lib/async");
 const { Json } = require("sequelize/dist/lib/utils");
 const servicePackage = require("../../models/Services/packageService");
 const serviceProduct = require("../../models/Services/productService");
+const servicePaymentHistory = require("../../models/Services/paymentHistoryService");
+const { models } = require("../../models");
+const https = require("https");
+const httpsAgent = new https.Agent({ rejectUnauthorized: false });
 
 const list = async (req, res) => {
     const pt = await servicePackage.listPackage();
@@ -32,11 +37,53 @@ const list = async (req, res) => {
         package.price=Intl.NumberFormat('vi-VN').format(package.price)+' đ'
         package.link="/package/detailPackage/"+package.id
     }))
+
     res.render('user/purchase',{
         tag: "Purchase",
         sidebar:"user",
-        package:pt
+        package:pt,
     })
 };
+const buy =async  (req, res) =>{
+    const id = req.body.id;
+    const count = req.body.countBuy;
+    const tmpPrice = req.body.price;
 
-module.exports = { list };
+    const package = await models.NeccessaryPackage.findOne({
+        where:{
+            id
+        },raw: true
+    });
+
+    let tmp = tmpPrice.split(' ')[0];
+    let price = tmp.split('.')[0] + tmp.split('.')[1];
+
+    const date = new Date().toLocaleString();
+    const bill = {
+        id_package: id,
+        id_payer: req.session.user.id,
+        count: count,
+        time_start: date,
+        price: parseInt(price),
+        list_product: package.list_product
+    }
+    await servicePaymentHistory.addPayment(bill);
+
+    await axios.post("https://localhost:8000/update",
+    {
+        Authorization: "Bearer "+req.session.user.access_token,
+        Money: -price*count
+    },
+    {httpsAgent}
+    )
+      .then(function (response) {
+        console.log(response.status);
+      })
+      .catch(function (error) {
+        // handle error~
+        console.log(error);
+        
+      });
+    res.redirect('/purchase');
+}
+module.exports = { list,buy };

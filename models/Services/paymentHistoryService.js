@@ -15,5 +15,14 @@ const findByPayerId = async(id) => {
         console.log(err);
     }
 }
-
-module.exports = { findByPayerId };
+const addPayment = async (bill) =>{
+    await models.PaymentHistory.create({
+        id_package: bill.id_package,
+        id_payer: bill.id_payer,
+        count: bill.count,
+        time_start: bill.time_start,
+        price: bill.price,
+        list_product: bill.list_product,
+    });
+}
+module.exports = { findByPayerId,addPayment };
