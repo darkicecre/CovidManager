@@ -31,10 +31,10 @@ router.post('/', passport.authenticate("local", {
 
                 req.session.user.manager = true;
             }
-            if (req.user.role == "admin") {
-                req.session.user.manager = true;
+            else if (req.user.role == "admin") {
+                req.session.user.admin = true;
             }
-            if (req.user.role == 'user') {
+            else {
                 await axios.post('http://localhost:8000/login', {
                         id: id
                     })
