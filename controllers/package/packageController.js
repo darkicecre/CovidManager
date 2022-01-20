@@ -141,23 +141,3 @@ const packageDetail = async (req, res) => {
 };
 
 module.exports = { list, addPackage,add,deletePackage,toUpdatePackage,updatePackage,packageDetail};
- // const patientDetail = async  (_id) => {
-  //   let patient;
-  //   try{
-  //     patient = await models.ContactHistory.findAll({
-  //       include: [
-  //         {
-  //           model: models.Patient,
-  //           as:'id_other_person_Patient',
-  //           attribute: ["name", "identity_card", "address", "status","id"],
-  //         },
-  //       ],
-  //       where: {
-  //         [Op.and]: [
-  //           {
-  //             id_person: _id
-  //           },
-  
-  //         ],
-  //       },raw:true,
-  //     });
