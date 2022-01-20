@@ -142,9 +142,10 @@
                                 <td>{{price}}</td>
                                 <td style="display:flex; flex-direction: column;">
 
-                                    <input type="number" name="countBuy" value="1" style="width:40px">
-                                    <form action="/" method="post">
+                                    <form action="/purchase/buy" method="post">
                                         <input type="text" name="id" value={{id}} style="display: none;">
+                                        <input type="text" name="price" value={{price}} style="display: none;">
+                                        <input type="number" name="countBuy" value="1" style="width:40px">
                                         <button type="submit">
                                             <i class="fa fa-shopping-basket"></i>
                                         </button>

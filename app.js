@@ -6,8 +6,15 @@ const path = require("path");
 const flash = require("connect-flash");
 const session = require('express-session');
 const cookieParser = require("cookie-parser");
+const https = require("https");
+const fs = require("fs");
 const app = express();
 
+
+const options = {
+  key: fs.readFileSync("./cert.key"),
+  cert: fs.readFileSync("./cert.crt"),
+};
 app.use(cookieParser());
 app.use(flash());
 app.use(
@@ -91,4 +98,5 @@ app.use("/", (req, res) => {
 
 //do not change
 const port = process.env.PORT || 3000;
-app.listen(port, () => console.log("Server listening on port " + port));
+https.createServer(options, app).listen(port);
+//app.listen(port, () => console.log("Server listening on port " + port));
