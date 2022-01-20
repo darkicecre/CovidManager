@@ -29,7 +29,9 @@ router.get('/:id', controller.detailUser);
 router.get("/", (req, res) => {
     if (req.session.user) {
         user = req.session.user;
-        res.render('user/viewInfor')
+        res.render("user/viewInfor", {
+          sidebar: "user",
+        });
     } else {
         res.redirect('/login')
     }

@@ -177,11 +177,11 @@ const addContact = async (req, res) => {
   let person =await servicePatient.findPatientById(pt.id);
   pt.status ='F' + (parseInt(person.status[1]) + 1).toString();
   var address = '{"city":"'+pt.city+'","ward":"'+pt.address_ward+'","district":"'+pt.address_district+'","detail":"'+pt.address_detail+'"}';
-  console.log(pt)
+  console.log(pt.time_start)
   await servicePatient.addPatient(pt,address);
   let id_other_person = await servicePatient.findPatientByIdentity(pt.CMND);
 
-  await servicePatient.addContactPatient(pt.id,id_other_person.id);
+
    const date = new Date().toLocaleString();
    serviceManagerHistory.addManagerPatientLog(
      req.session.user.id,
@@ -189,6 +189,9 @@ const addContact = async (req, res) => {
      date,
      pt.CMND
    );
+  // console.log('Id cua other person' +id_other_person.id)
+  
+  await servicePatient.addContactPatient(pt.id,id_other_person.id, pt.time_start)
   res.redirect("/patient/"+pt.id);
 }
 module.exports = {

@@ -1,3 +1,4 @@
+const service = require("../../models/Services/userAccount");
 const isAuthenticated = (req, res) => {
     if (req.user) {
         return true;
@@ -23,10 +24,18 @@ const login = (req, res) => {
     });
 
 }
+const updateTime = (id) => {
+    const acc = {
+        id: id,
+        first_time: false,
+    };
 
+    service.updateAccount(acc)
+
+}
 module.exports = {
     isAuthenticated,
     login,
     isManagers,
-
+    updateTime,
 }
