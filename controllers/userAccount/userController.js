@@ -1,6 +1,7 @@
 const axios = require('axios').default;
 
 const service = require("../../models/Services/userAccount");
+const serviceHistory = require("../../models/Services/managerHistoryService");
 
 const list = async(req, res) => {
     if (req.session.user.manager) {
@@ -200,18 +201,30 @@ const totalMoney = async(req, res, user) => {
     });
 
 };
-
-module.exports = {
-    addMoneyPage,
-    list,
-    addAccount,
-    add,
-    accountDetail,
-    updateAccount,
-    detailUser,
-    editAccount,
-    edit,
-    deleteAccount,
-    addMoney,
-    totalMoney
+const listHistory = async (req, res) => {
+  const log = await serviceHistory.logList();
+  console.log(log);
+  res.render("admin/managerHistory", {
+    sidebar: "admin",
+    tag: "History",
+    log: log,
+  });
 };
+module.exports = {
+  addMoneyPage,
+  list,
+  addAccount,
+  add,
+  accountDetail,
+  updateAccount,
+  detailUser,
+  editAccount,
+  edit,
+  deleteAccount,
+  addMoney,
+  totalMoney,
+  listHistory,
+};
+    
+
+
