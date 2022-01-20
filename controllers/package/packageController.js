@@ -114,10 +114,12 @@ const packageDetail = async (req, res) => {
     const val = package[0].dataValues
     val.list_product = eval(val.list_product)
     val.products = []
+    val.price=0;
     for (var i = 0; i < val.list_product.length; i++) {
       const product = await serviceProduct.findById(val.list_product[i]);
       product[0].dataValues.count = val.list_product[i].count
       val.products.push(product[0].dataValues)
+      val.price=Number(val.price)+Number(product[0].dataValues.price)*Number(product[0].dataValues.count);
     }
     console.log(val)
     res.render("manager/packageDetail", {
@@ -126,7 +128,7 @@ const packageDetail = async (req, res) => {
       tag: "Package Detail",
       id: req.params.id,
       name: val.name,
-      price: val.products.price,
+      price: val.price,
       limit_day: val.limit_count_package_day,
       limit_week: val.limit_count_package_week,
       limit_month: val.limit_count_package_month,
