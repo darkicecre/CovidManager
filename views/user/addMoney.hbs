@@ -1,0 +1,22 @@
+<div class="container center-block" style="width:500px">
+            <div class="panel panel-primary">
+                <div class="panel-body">
+                    <form  action="http://localhost:8000/addMoney" method="post">
+                        <div class="form-group">
+                            <label>Nhập số tiền muốn nạp:</label>
+                            <div>
+                            <input data-parsley-type="number" type="text" name="money" class="form-control" required placeholder="Enter only numbers"/>
+                        </div>
+                        <input type="text" name="id" value={{id}} style="display: none;">
+                        <div class="form-group text-center">
+                            <div>
+                                <button style="margin-top:10px" type="submit"  class="btn btn-primary waves-effect waves-light">
+                                  NẠP
+                                </button>
+                            </div>
+                        </div>
+
+                </form>
+            </div>
+        </div>
+</div>

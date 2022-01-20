@@ -17,6 +17,8 @@ router.post('/addAccount', (req, res) => {
     }
 
 });
+router.get('/addMoney',controller.addMoneyPage);
+router.get("/paymentDetail", controller.paymentDetail);
 router.get('/edit/:id', controller.editAccount);
 router.post('/edit/:id', controller.edit);
 router.get('/delete/:id', controller.deleteAccount);
