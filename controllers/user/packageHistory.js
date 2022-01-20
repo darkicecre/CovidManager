@@ -13,7 +13,6 @@ const list = async(req, res, user) => {
     var result = await service.findByPayerId(id);
     for (r of result) {
         var pt = await PackageService.findById2(r.id_package);
-        pt = pt[0]
         await Promise.all(pt.map(async(package) => {
             package.list_product = eval(package.list_product);
             const productFirst = await ProductService.findById(package.list_product[0])
@@ -35,18 +34,18 @@ const list = async(req, res, user) => {
             package.price = 0;
             await Promise.all(package.list_product.map(async(product) => {
                 const item = await ProductService.findById(product);
-                console.log(item)
                 package.price = Number(package.price) + Number(product.count) * Number(item[0].dataValues.price);
             }))
             package.price = Intl.NumberFormat('vi-VN').format(package.price) + ' đ'
         }))
-        payment.push(pt)
+
+        payment.push(pt[0])
     }
     res.render("user/packageHistory", {
-      sidebar: "user",
-      title: "Covid Manager",
-      tag: "Package History",
-      payment: payment,
+        sidebar: "user",
+        title: "Covid Manager",
+        tag: "Package History",
+        package: payment,
     });
 };
 

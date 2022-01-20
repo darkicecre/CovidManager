@@ -38,13 +38,24 @@
                         <div class="col-md-2">
                             <input type="number" name="countBuy" value="1" style="width:40px">
                         </div>
-                        <div class="col-md-2">
-                            <form action="/" method="post">
-                                <input type="text" name="id" value={{id}} style="display: none;">
-                                <button type="submit">
-                                    <i class="fa fa-shopping-basket"></i>
-                                </button>
-                            </form>
+                        <div class="row"><h5 style="text-align: center;">{{{list_product.length}}} sản phẩm</h5></div>
+                        <div class="row"><h4 class="priceText" >{{{price}}}</h4></div>
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-2"></div>
+                            
+                            <div class="col-md-2">
+                                <form  action="/purchase/buy" method="post">
+                                    <input type="number" name="countBuy" value="1" style="width:40px">
+                                    <input type="text" name="id" value={{id}} style="display: none;">
+                                    <input type="text" name="price" value={{price}} style="display: none;">
+                                    <button type="submit">
+                                        <i class="fa fa-shopping-basket"></i>
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="col-md-2"></div>
+                            <div class="col-md-2"></div>
                         </div>
                         <div class="col-md-2"></div>
                         <div class="col-md-2"></div>

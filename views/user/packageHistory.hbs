@@ -1,43 +1,37 @@
 <div class="container">
-  <div style="display:flex; justify-content:flex-end">
   <div class="row">
-      {{#each payment}}
-        <div class="col-md-4" >
-            <div class="panel row" style="padding-top: 10px; padding-bottom:10px;">
-                <div class="col-md-6">
-                    <button class="thumbnail imageItemMain" style="margin-bottom: 5px;">
-                        <img src="{{imageMain}}" alt="..." class="imageMain">
-                    </button>
-                    <div style="position:relative; left:16px">
-                        <button class="thumbnail col-md-4 imageItem">
-                            <img src="{{imageSecond}}" alt="..." class="image">
+      {{#each package}}
+        <a href="{{link}}">
+            <div class="col-md-4">
+                <div class="panel row" style="padding-top: 10px; padding-bottom:10px;">
+                    <div class="col-md-6">
+                        <button class="thumbnail imageItemMain" style="margin-bottom: 5px;">
+                            <img src="{{imageMain}}" alt="..." class="imageMain">
                         </button>
-                        <button class="thumbnail col-md-4 imageItem">
-                            <img src="{{imageThird}}" alt="..." class="image">
-                        </button>
-                        <button class="thumbnail col-md-4 imageItem">
-                            <img src="https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/more-512.png" alt="..." class="image">
-                        </button>
+                        <div style="position:relative; left:16px">
+                            <button class="thumbnail col-md-4 imageItem">
+                                <img src="{{imageSecond}}" alt="..." class="image">
+                            </button>
+                            <button class="thumbnail col-md-4 imageItem">
+                                <img src="{{imageThird}}" alt="..." class="image">
+                            </button>
+                            <button class="thumbnail col-md-4 imageItem">
+                                <img src="https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/more-512.png" alt="..." class="image">
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="row" style="height: 100px;">
-                        <h4 class="hiddenMultitext">
-                            {{name}}
-                        </h4>
-                    </div>
-                    <div class="row"><h5 style="text-align: center;">{{{list_product.length}}} sản phẩm</h5></div>
-                    <div class="row"><h4 class="priceText" >{{{price}}}</h4></div>
-                    <div class="row">
-                        <div class="col-md-2"></div>
-                        <div class="col-md-2"><button><i class="ti-pencil-alt"></i></button></div>
-                        <div class="col-md-3"></div>
-                        <div class="col-md-2"><button><i class="ti-trash"></i></button></div>
-                        <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        <div class="row" style="height: 100px;">
+                            <h4 class="hiddenMultitext">
+                                {{name}}
+                            </h4>
+                        </div>
+                        <div class="row"><h5 style="text-align: center;">{{{list_product.length}}} sản phẩm</h5></div>
+                        <div class="row"><h4 class="priceText" >{{{price}}}</h4></div>
                     </div>
                 </div>
             </div>
-        </div>
+        </a>
       {{/each}}
   </div>
   
