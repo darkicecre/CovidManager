@@ -202,7 +202,6 @@ const totalMoney = async(req, res, user) => {
 };
 
 module.exports = {
-    paymentDetail,
     addMoneyPage,
     list,
     addAccount,
