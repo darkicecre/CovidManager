@@ -36,9 +36,8 @@ const list = async (req, res) => {
   res.render("manager/package", {
     sidebar: "manager",
     tag: "Package",
-    package: pt,
-    price: pt[0].price
-  });
+    package: pt
+    });
 };
 const addPackage = async (req, res) => {
   const pt = await serviceProduct.listProduct();
