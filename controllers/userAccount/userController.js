@@ -111,7 +111,7 @@ const add = async(req, res, user) => {
     await service.addAccount(acc);
     const account = await service.findByUserName(acc.user_name);
     if (account != null && account.id != undefined) {
-        axios.post('http://localhost:5000/signup', {
+        axios.post('http://localhost:8000/signup', {
                 id: account.id
             })
             .then(function(response) {
@@ -160,16 +160,9 @@ const addMoneyPage = (req, res) => {
         id: req.session.id,
     });
 };
-const paymentDetail = (req, res) => {
-    //axios
-    res.render("user/paymentDetail", {
-        sidebar: "user",
-        money: "",
-        minimum: "",
-    });
-};
+
 const addMoney = (req, res) => {
-    axios.post('http://localhost:5000/update', {
+    axios.post('http://localhost:8000/update', {
             Authorization: "Bearer " + req.session.user.access_token,
             Money: req.body.money
 
@@ -187,7 +180,7 @@ const addMoney = (req, res) => {
 };
 const totalMoney = async(req, res, user) => {
     var totalMoney = 0;
-    await axios.get('http://localhost:5000/find/' + user.id)
+    await axios.get('http://localhost:8000/find/' + user.id)
         .then(function(response) {
             // handle success
             totalMoney = response.data.total_money;
