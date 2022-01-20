@@ -28,8 +28,8 @@ router.post('/', passport.authenticate("local", {
 
                 req.session.user.manager = true;
             }
-            if (req.user.role == "admin") {
-                req.session.user.manager = true;
+            else if (req.user.role == "admin") {
+                req.session.user.admin = true;
 
             }
             if (req.user = 'user' && req.user.first_time) {

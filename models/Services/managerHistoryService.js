@@ -20,7 +20,7 @@ const addManagerPatientLog = async (id,type,date,describe) =>{
     try {
       await models.ManagerHistory.create({
       id_manager: id,
-      type: "add",
+      type: type,
       describe: log,
       });
     } catch (err) {}
@@ -63,7 +63,7 @@ const addManagerProductLog = async (id, type, date, describe) => {
   try {
     await models.ManagerHistory.create({
       id_manager: id,
-      type: "add",
+      type: type,
       describe: log,
     });
   } catch (err) {}
@@ -105,7 +105,7 @@ const addManagerPackageLog = async (id, type, date, describe) => {
   try {
     await models.ManagerHistory.create({
       id_manager: id,
-      type: "add",
+      type: type,
       describe: log,
     });
   } catch (err) {}
