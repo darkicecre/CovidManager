@@ -38,7 +38,7 @@ const add = (req, res) => {
   const pt = req.body;
   
   service.addProduct(pt);
-  const date = Date.now();
+  const date = new Date().toLocaleString();
    serviceManagerHistory.addManagerProductLog(
      req.session.user.id,
      "add",
@@ -49,7 +49,7 @@ const add = (req, res) => {
 };
 const deletePro=(req,res)=>{
   const pt = req.body;
-  const date = Date.now();
+  const date = new Date().toLocaleString();
   serviceManagerHistory.addManagerProductLog(
     req.session.user.id,
     "delete",

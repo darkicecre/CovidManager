@@ -62,7 +62,7 @@ const add = async (req, res) => {
   }
   Jsonfy=Jsonfy+']';
   await service.addPackage(pt,Jsonfy).then(res.redirect("/package"));
-  const date = Date.now();
+  const date = new Date().toLocaleString();
   serviceManagerHistory.addManagerPackageLog(
     req.session.user.id,
     "add",
@@ -80,7 +80,7 @@ const updatePackage = async (req,res)=>{
     }
   }
   Jsonfy=Jsonfy+']';
-  const date = Date.now();
+  const date = new Date().toLocaleString();
   serviceManagerHistory.addManagerPackageLog(
     req.session.user.id,
     "update",
@@ -92,7 +92,7 @@ const updatePackage = async (req,res)=>{
 const deletePackage = async (req,res)=>{
   const pt = req.body;
   console.log(pt);
-  const date = Date.now();
+  const date = new Date().toLocaleString();
   serviceManagerHistory.addManagerPackageLog(
     req.session.user.id,
     "delete",

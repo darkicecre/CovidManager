@@ -76,7 +76,7 @@ const add = async (req, res) => {
   servicePatient.addPatient(pt,address)
   
   console.log(req.session.user);
-  const date =  Date.now();
+  const date = new Date().toLocaleString();
   serviceManagerHistory.addManagerPatientLog(req.session.user.id,"add",date,pt.CMND);
   res.redirect("/patient");
 };
@@ -104,7 +104,7 @@ const changeInfo = async(req, res) =>{
     console.log(pt)
     
     servicePatient.updateSrcPatient(pt.id,pt.status);
-    const date = Date.now();
+    const date = new Date().toLocaleString();
     serviceManagerHistory.addManagerPatientLog(
       req.session.user.id,
       "change",
@@ -182,7 +182,7 @@ const addContact = async (req, res) => {
   let id_other_person = await servicePatient.findPatientByIdentity(pt.CMND);
 
   await servicePatient.addContactPatient(pt.id,id_other_person.id);
-   const date = Date.now();
+   const date = new Date().toLocaleString();
    serviceManagerHistory.addManagerPatientLog(
      req.session.user.id,
      "add",
