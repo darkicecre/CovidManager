@@ -1,9 +1,12 @@
+const { models } = require("../../models");
+
 const service = require("../../models/Services/productService");
+const serviceCategory = require("../../models/Services/categoryService");
 
 const list = async (req, res) => {
   const pt = await service.listProduct();
   pt.forEach(element => {
-      element.price=Intl.NumberFormat('vi-VN').format(element.price)
+    element.price = Intl.NumberFormat('vi-VN').format(element.price)
   });
   res.render("manager/product", {
     sidebar: "manager",
@@ -12,13 +15,16 @@ const list = async (req, res) => {
     product: pt,
   });
 };
-const addProduct = (req, res) => {
-   res.render("manager/addProduct", {
-     sidebar: "manager",
-     tag: "Add Product",
-   });
+const addProduct = async(req, res) => {
+  const pt = await serviceCategory.getListCategory();
+  console.log(pt)
+  res.render("manager/addProduct", {
+    sidebar: "manager",
+    tag: "Add Product",
+    category: pt,
+  });
 };
-const toUpdateProduct = async (req,res)=>{
+const toUpdateProduct = async (req, res) => {
   const pt = req.body;
   const obj = await service.findById(pt);
   res.render("manager/updateProduct", {
@@ -34,27 +40,27 @@ const toUpdateProduct = async (req,res)=>{
 }
 
 const add = (req, res) => {
-   const pt = req.body;
-   console.log(pt);
-   service.addProduct(pt)
-     .then(res.redirect("/product"))
+  const pt = req.body;
+  console.log(pt);
+  service.addProduct(pt)
+    .then(res.redirect("/product"))
 };
-const deletePro=(req,res)=>{
+const deletePro = (req, res) => {
   const pt = req.body;
   console.log(pt);
   service.deleteProduct(pt).then(res.redirect("/product"));
 }
 
-const productDetail = (req,res)=>{
+const productDetail = (req, res) => {
   res.render("manager/productDetail", {
     sidebar: "manager",
     tag: "Product Detail",
   });
 }
 
-const updateProduct=(req,res)=>{
+const updateProduct = (req, res) => {
   const pt = req.body;
   console.log(pt);
   service.updateProduct(pt).then(res.redirect("/product"));
 }
-module.exports = { list, addProduct,add,productDetail, deletePro,toUpdateProduct, updateProduct };
+module.exports = { list, addProduct, add, productDetail, deletePro, toUpdateProduct, updateProduct };
