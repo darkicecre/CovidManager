@@ -5,6 +5,7 @@ const router = express.Router();
 const controller = require("../controllers/user/userController");
 const payment = require("../controllers/user/paymentHistory");
 const package = require("../controllers/user/packageHistory");
+const account = require("../controllers/userAccount/userController");
 
 /*router.get("/", (req, res) => {
     if (req.session.user) {
@@ -30,7 +31,7 @@ router.get("/", (req, res) => {
     if (req.session.user) {
         user = req.session.user;
         res.render("user/viewInfor", {
-          sidebar: "user",
+            sidebar: "user",
         });
     } else {
         res.redirect('/login')
@@ -61,6 +62,15 @@ router.get("/packageHistory", (req, res) => {
     if (req.session.user) {
         user = req.session.user;
         package.list(req, res, user)
+    } else {
+        res.redirect('/login')
+    }
+
+});
+router.get("/debt", (req, res) => {
+    if (req.session.user) {
+        user = req.session.user;
+        account.totalMoney(req, res, user)
     } else {
         res.redirect('/login')
     }

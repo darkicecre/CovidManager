@@ -1,3 +1,4 @@
+const axios = require('axios').default;
 const { redirect } = require("express/lib/response");
 const async = require("hbs/lib/async");
 const { Json } = require("sequelize/dist/lib/utils");
@@ -16,6 +17,10 @@ const list = async (req, res) => {
     });
 
 };
+const buy =async  (req, res) =>{
+    const id = req.body.id;
+    const count = req.body.countBuy;
+    const tmpPrice = req.body.price;
 
-
-module.exports = { list };
+}
+module.exports = { list,buy };

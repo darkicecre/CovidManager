@@ -10,5 +10,5 @@ router.get("/", controller.list);
 // router.post('/deleteProduct',controller.deletePro)
 // router.post('/toUpdateProduct',controller.toUpdateProduct);
 // router.post('/updateProduct',controller.updateProduct);
-
+router.post("/buy",controller.buy);
 module.exports = router;
